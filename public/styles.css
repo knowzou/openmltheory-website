@@ -13,6 +13,9 @@
 
 .hero-art .art-top{justify-content:flex-end}
 
+.brand img{display:block;width:36px;height:36px;flex:none}
+.footer .brand img{width:27px;height:27px}
+
 .desktop-nav a[aria-current="page"],.mobile-nav a[aria-current="page"],.footer a[aria-current="page"]{color:var(--accent)}
 .subpage-main{min-height:calc(100vh - 200px)}
 .page-intro{padding-top:76px;padding-bottom:54px;border-bottom:1px solid var(--line)}
