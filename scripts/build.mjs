@@ -25,7 +25,7 @@ for (const filename of ['index.html', 'index.en.html']) {
   html = html.replace('<head>', '<head>\n<link rel="icon" type="image/svg+xml" href="/favicon.svg">\n<meta name="description" content="MLtheorybench: 885 proof tasks from machine learning theory papers, comparing seven AI models.">');
   html = html.replace(/<div class="topbar"><b>MLtheorybench<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>MLtheorybench</b>`);
   html = html.replace('</style>', `\n.home-link{color:var(--muted);font-size:13px;text-decoration:none;white-space:nowrap}.home-link:hover{color:var(--primary)}.language-toggle{padding:3px 10px;border:1px solid var(--border);border-radius:5px;background:white;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}.language-toggle:hover,.language-toggle:focus-visible{border-color:var(--primary);color:var(--text)}.topbar{gap:18px;flex-wrap:wrap}.topbar>b{margin-right:auto}@media(max-width:600px){.topbar{padding:12px 16px;gap:10px}.topbar-actions{gap:10px}.topbar-actions>span{display:none}}\n</style>`);
-  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回 OpenMLTheory 首页' : 'Back to OpenMLTheory'}</a></nav>\n</body>`);
+  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'MLtheorybench';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
   if (!body) throw new Error(`Missing body in ${filename}`);
@@ -66,7 +66,7 @@ for (const filename of ['index.html', 'index.en.html']) {
   html = html.replace('<head>', '<head>\n<link rel="icon" type="image/svg+xml" href="/favicon.svg">\n<meta name="description" content="VALG: an agentic workflow for developing ML theory research with explicit theorem scope and proof review.">');
   html = html.replace(/<div class="topbar"><b>[^<]+<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>VALG</b>`);
   html = html.replace('</style>', `\n.home-link{color:var(--muted);font-size:13px;text-decoration:none;white-space:nowrap}.home-link:hover{color:var(--primary)}.language-toggle{padding:3px 10px;border:1px solid var(--border);border-radius:5px;background:white;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}.language-toggle:hover,.language-toggle:focus-visible{border-color:var(--primary);color:var(--text)}.topbar{gap:18px;flex-wrap:wrap}.topbar>b{margin-right:auto}@media(max-width:600px){.topbar{padding:12px 16px;gap:10px}.topbar-actions{gap:10px}.topbar-actions>span{display:none}}\n</style>`);
-  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回 OpenMLTheory 首页' : 'Back to OpenMLTheory'}</a></nav>\n</body>`);
+  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'VALG';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
   if (!body) throw new Error(`Missing body in ${filename}`);
@@ -96,10 +96,9 @@ await writeFile(resolve(output, '_redirects'), [
   '/blog/MLtheorybench/ /blog/MLtheorybench 301',
   '/blog/MLtheorybench/index.html /blog/MLtheorybench 301',
   '/blog/MLtheorybench/index.en.html /blog/MLtheorybench 301',
-  '/blog /#featured-research 302',
-  '/blog/ /#featured-research 302',
-  '/blog/index.html /blog/MLtheorybench 301',
-  '/blog/index.en.html /blog/MLtheorybench 301',
+  '/blog /blog/ 301',
+  '/blog/index.html /blog/ 301',
+  '/blog/index.en.html /blog/ 301',
   '/blog/valg/ /blog/valg 301',
   '/blog/valg/index.html /blog/valg 301',
   '/blog/valg/index.en.html /blog/valg 301'

@@ -5,7 +5,7 @@ const translations = {
     heroDescription: 'Advancing machine learning theory through open inquiry, careful reasoning, and a closer look at what AI can prove.',
     exploreResearch: 'Explore our research', discoverApproach: 'Discover our approach', researchScope: 'OUR RESEARCH LENS',
     field1: 'Learning theory', field2: 'Optimization', field3: 'Mathematical reasoning', field4: 'AI for science',
-    featuredEyebrow: 'OUR RESEARCH', featuredTitle: 'Research notes and systems.', featuredIndex: '02 / PUBLICATIONS',
+    featuredEyebrow: 'OUR RESEARCH', featuredTitle: 'Latest posts', featuredIndex: '02 / PUBLICATIONS',
     systemTag: 'AGENTIC SYSTEM', benchmarkTag: 'BENCHMARK', valgDate: 'August 13, 2026', reportDate: 'October 26, 2026', postTitle: 'MLtheorybench: Evaluating Proofs in Machine Learning Theory',
     postDescription: 'What does it take for an AI model to complete a research proof? We study 885 proof tasks from recent machine learning theory papers and compare seven models.',
     by: 'BY', paperLabel: 'Paper:', repositoryLabel: 'Repository:', readFullReport: 'Read the full report', reportPoint1: 'From papers to proof tasks', reportPoint1Body: 'A fixed task set built from recent research.',
@@ -27,7 +27,7 @@ const translations = {
     heroDescription: '以开放的探索、严谨的推理，推进机器学习理论研究，理解 AI 究竟能证明什么。',
     exploreResearch: '浏览研究内容', discoverApproach: '了解研究理念', researchScope: '我们的研究视角',
     field1: '学习理论', field2: '最优化', field3: '数学推理', field4: 'AI 驱动科学发现',
-    featuredEyebrow: '我们的研究', featuredTitle: '研究笔记与系统。', featuredIndex: '02 / 研究文章',
+    featuredEyebrow: '我们的研究', featuredTitle: '最新文章', featuredIndex: '02 / 研究文章',
     systemTag: 'AGENT 系统', benchmarkTag: '评测基准', valgDate: '2026 年 8 月 13 日', reportDate: '2026 年 10 月 26 日', postTitle: 'MLtheorybench：机器学习理论证明评测',
     postDescription: 'AI 模型距离完成一份研究级证明还有多远？我们从近期机器学习理论论文中构建了 885 道证明任务，并比较七个模型的表现。',
     by: '作者', paperLabel: '论文：', repositoryLabel: '代码仓库：', readFullReport: '阅读全文', reportPoint1: '从论文到证明任务', reportPoint1Body: '从近期研究中构建固定的评测任务集。',
@@ -74,13 +74,30 @@ Object.assign(translations.zh, {
   aboutBody2: '这里分享我们的研究进展、资源与思考。',
 });
 
+Object.assign(translations.en, {
+  navResearchContent: 'Blog', navAbout: 'About us', viewAllPosts: 'All posts',
+  blogPageLabel: 'PUBLICATIONS', blogPageTitle: 'Blog',
+  aboutPageLabel: 'OPENMLTHEORY', aboutPageTitle: 'About us', aboutResearch: 'Our research'
+});
+Object.assign(translations.zh, {
+  navResearchContent: '博客', navAbout: '关于我们', viewAllPosts: '查看全部文章',
+  blogPageLabel: '研究文章', blogPageTitle: '博客',
+  aboutPageLabel: 'OPENMLTHEORY', aboutPageTitle: '关于我们', aboutResearch: '我们的研究'
+});
+
 const languageButton = document.querySelector('#language');
+const page = document.body.dataset.page || 'home';
 let language = 'en';
 try { language = localStorage.getItem('openmltheory-language') === 'zh' ? 'zh' : 'en'; } catch {}
 function setLanguage(next) {
   language = next;
   document.documentElement.lang = next === 'zh' ? 'zh-CN' : 'en';
-  document.title = next === 'zh' ? 'OpenMLTheory — AI 与理论的协同' : 'OpenMLTheory — AI for Theory. Theory for AI.';
+  const titles = {
+    home: next === 'zh' ? 'OpenMLTheory — AI 与理论的协同' : 'OpenMLTheory — AI for Theory. Theory for AI.',
+    blog: next === 'zh' ? '博客 — OpenMLTheory' : 'Blog — OpenMLTheory',
+    about: next === 'zh' ? '关于我们 — OpenMLTheory' : 'About us — OpenMLTheory'
+  };
+  document.title = titles[page];
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = translations[next][el.dataset.i18n]; });
   document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = translations[next][el.dataset.i18nHtml]; });
   const article = '/blog/MLtheorybench';
@@ -90,8 +107,8 @@ function setLanguage(next) {
   document.querySelectorAll('[data-src-en]').forEach(image => {
     image.src = next === 'zh' ? image.dataset.srcZh : image.dataset.srcEn;
   });
-  document.querySelector('.research-card-bench .research-cover').setAttribute('aria-label', next === 'zh' ? '阅读 MLtheorybench：机器学习理论证明评测' : 'Read MLtheorybench: Evaluating Proofs in Machine Learning Theory');
-  document.querySelector('.research-card-valg .research-cover').setAttribute('aria-label', next === 'zh' ? '阅读 VALG：面向机器学习理论研究的 Agent 系统' : 'Read VALG: An Agentic System for ML Theory Research');
+  document.querySelector('.research-card-bench .research-cover')?.setAttribute('aria-label', next === 'zh' ? '阅读 MLtheorybench：机器学习理论证明评测' : 'Read MLtheorybench: Evaluating Proofs in Machine Learning Theory');
+  document.querySelector('.research-card-valg .research-cover')?.setAttribute('aria-label', next === 'zh' ? '阅读 VALG：面向机器学习理论研究的 Agent 系统' : 'Read VALG: An Agentic System for ML Theory Research');
   languageButton.textContent = next === 'zh' ? 'EN' : '中文';
   languageButton.setAttribute('aria-label', next === 'zh' ? 'Switch to English' : '切换到中文');
   try { localStorage.setItem('openmltheory-language', next); } catch {}
@@ -129,7 +146,7 @@ function curve(points, stroke, width, opacity, parent) {
   parent.append(el); return el;
 }
 const mesh = document.querySelector('#mesh');
-for (let i = 0; i <= 25; i++) {
+if (mesh) for (let i = 0; i <= 25; i++) {
   const fixed = -2 + i * 4 / 25;
   const across = [], along = [];
   for (let j = 0; j <= 100; j++) { const moving = -2 + j * 4 / 100; across.push(project(fixed, moving)); along.push(project(moving, fixed)); }
@@ -138,8 +155,8 @@ for (let i = 0; i <= 25; i++) {
 const trail = [];
 for (let i = 0; i <= 100; i++) { const t = i / 100; trail.push(project(-1.5 + 2.75 * t, -1.05 + 2.1 * t + .28 * Math.sin(t * Math.PI * 2))); }
 const journey = document.querySelector('#journey');
-curve(trail, '#be5134', 2.1, 1, journey);
-for (const point of [trail[0], trail[trail.length - 1]]) {
+if (journey) curve(trail, '#be5134', 2.1, 1, journey);
+if (journey) for (const point of [trail[0], trail[trail.length - 1]]) {
   const circle = document.createElementNS(ns, 'circle');
   circle.setAttribute('cx', point[0]); circle.setAttribute('cy', point[1]); circle.setAttribute('r', 4);
   circle.setAttribute('fill', '#be5134'); circle.setAttribute('stroke', 'white'); circle.setAttribute('stroke-width', 2);

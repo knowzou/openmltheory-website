@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>Blog — OpenMLTheory</title>
+  <meta name="description" content="Research articles from OpenMLTheory on AI and machine learning theory.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,450;0,500;0,600;1,400;1,450;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css?v=20261106-1">
+  <script src="/app.js?v=20261106-1" defer></script>
+</head>
+<body data-page="blog">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="OpenMLTheory home"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 32 20 6l14 26H6M13 19l7 13 7-13M20 6v11"/></svg><span>Open<span class="brand-light">MLTheory</span></span></a>
+      <nav aria-label="Main navigation" class="desktop-nav"><a href="/blog/" aria-current="page" data-i18n="navResearchContent">Blog</a><a href="/about/" data-i18n="navAbout">About us</a></nav>
+      <div class="header-actions"><button class="language" aria-label="Switch to Chinese" id="language">中文</button><button id="menu" class="menu-button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Toggle navigation"><span></span><span></span></button></div>
+    </div>
+    <nav id="mobile-nav" class="mobile-nav container" aria-label="Mobile navigation" hidden><a href="/blog/" aria-current="page" data-i18n="navResearchContent">Blog</a><a href="/about/" data-i18n="navAbout">About us</a></nav>
+  </header>
+  <main id="main" class="subpage-main">
+    <div class="container page-intro"><p class="eyebrow muted" data-i18n="blogPageLabel">PUBLICATIONS</p><h1 data-i18n="blogPageTitle">Blog</h1></div>
+    <section class="container publication-list" aria-label="Research articles">
+      <div class="research-catalog">
+        <article class="research-card research-card-bench">
+          <a class="research-cover" data-blog href="/blog/MLtheorybench" aria-label="Read MLtheorybench: Evaluating Proofs in Machine Learning Theory">
+            <div class="research-cover-meta"><span>MLtheorybench</span><span>RESEARCH NOTE 002</span></div>
+            <div class="research-figure research-figure-bench" aria-hidden="true"><img src="/blog/assets/figures/fig5_results_by_prc.png" alt=""></div>
+            <div class="research-cover-bottom"><span>885 PROOF TASKS · 7 MODELS</span><span>↗</span></div>
+          </a>
+          <div class="research-card-copy">
+            <div class="post-meta"><span class="tag" data-i18n="benchmarkTag">BENCHMARK</span><time datetime="2026-10-26" data-i18n="reportDate">October 26, 2026</time></div>
+            <h3><a data-blog href="/blog/MLtheorybench" data-i18n="postTitle">MLtheorybench: Evaluating Proofs in Machine Learning Theory</a></h3>
+            <p data-i18n="postDescription">What does it take for an AI model to complete a research proof? We study 885 proof tasks from recent machine learning theory papers and compare seven models.</p>
+            <div class="post-authors"><span class="author-label" data-i18n="by">BY</span><span>Shaocheng Zhou, Decheng Zhang &amp; Difan Zou</span></div>
+            <a class="text-link post-link" data-blog href="/blog/MLtheorybench"><span data-i18n="readFullReport">Read the full report</span><span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+        <article class="research-card research-card-valg">
+          <a class="research-cover" data-valg href="/blog/valg" aria-label="Read VALG: An Agentic System for ML Theory Research">
+            <div class="research-cover-meta"><span>VALG</span><span>RESEARCH NOTE 001</span></div>
+            <div class="research-figure research-figure-valg" aria-hidden="true"><img src="/blog/assets/valg/figures/fig3_revision.en.svg" data-src-en="/blog/assets/valg/figures/fig3_revision.en.svg" data-src-zh="/blog/assets/valg/figures/fig3_revision.svg" alt=""></div>
+            <div class="research-cover-bottom"><span>9 OPEN SUBPROBLEMS · 25 BRANCHES</span><span>↗</span></div>
+          </a>
+          <div class="research-card-copy">
+            <div class="post-meta"><span class="tag" data-i18n="systemTag">AGENTIC SYSTEM</span><time datetime="2026-08-13" data-i18n="valgDate">August 13, 2026</time></div>
+            <h3><a data-valg href="/blog/valg" data-i18n="valgTitle">VALG: An Agentic System for ML Theory Research</a></h3>
+            <p data-i18n="valgDescription">A research system that develops theorem statements and proofs while keeping every result tied to its source question.</p>
+            <div class="post-authors"><span class="author-label" data-i18n="by">BY</span><span>Dechen Zhang, Xuan Tang, Xinxiang Yin, Xingwu Chen, Jian Qian &amp; Difan Zou</span></div>
+            <div class="research-sources"><span><span data-i18n="paperLabel">Paper:</span> <a href="https://arxiv.org/abs/2608.13060" target="_blank" rel="noopener noreferrer">arXiv:2608.13060</a></span><span><span data-i18n="repositoryLabel">Repository:</span> <a href="https://github.com/DechenZhang/VALG-ML-Theory-Agent" target="_blank" rel="noopener noreferrer">VALG-ML-Theory-Agent</a></span></div>
+            <a class="text-link post-link" data-valg href="/blog/valg"><span data-i18n="readFullReport">Read the full report</span><span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="container footer"><a class="brand" href="/" aria-label="OpenMLTheory home"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 32 20 6l14 26H6M13 19l7 13 7-13M20 6v11"/></svg><span>Open<span class="brand-light">MLTheory</span></span></a><p>© 2026 OpenMLTheory</p><div><a href="/blog/" aria-current="page" data-i18n="navResearchContent">Blog</a><a href="/about/" data-i18n="navAbout">About us</a><a href="#main" aria-label="Back to top">↑</a></div></footer>
+</body>
+</html>
