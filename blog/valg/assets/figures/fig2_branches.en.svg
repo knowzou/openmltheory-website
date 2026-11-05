@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 370" role="img" aria-labelledby="t d">
+<title id="t">Branch structure of one run</title>
+<desc id="d">P4 class existence: three perspectives try ideas in turn; idea 5 of perspective 1 passes the final review (progress 3.00), idea 2 of perspective 2 passes (progress 5.50), and perspective 3 reaches its limit after 6 ideas.</desc>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#6b7a86"/></marker></defs>
+<rect width="1100" height="370" fill="#fff"/>
+<g font-family="-apple-system,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif" fill="#22384d">
+<g font-size="15" fill="#6b7a86" font-weight="700" letter-spacing=".04em">
+<text x="20" y="28">Source subproblem</text><text x="250" y="28">Perspectives (≤ 3)</text><text x="410" y="28">Ideas tried in order</text><text x="720" y="28">Branch outcome</text></g>
+<rect x="20" y="148" width="180" height="84" rx="8" fill="#f3f7fb" stroke="#4f78a3" stroke-width="2"/>
+<text x="110" y="182" font-size="15.5" font-weight="700" text-anchor="middle">P4 · Class existence</text>
+<text x="110" y="206" font-size="15" text-anchor="middle" fill="#55657a">source problem statement</text>
+<g fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)">
+<path d="M200 190H222V78H244"/><path d="M200 190H244"/><path d="M200 190H222V302H244"/></g>
+<g fill="#f3f7fb" stroke="#4f78a3" stroke-width="2">
+<rect x="250" y="52" width="120" height="52" rx="8"/><rect x="250" y="164" width="120" height="52" rx="8"/><rect x="250" y="276" width="120" height="52" rx="8"/></g>
+<g font-size="17" font-weight="700" text-anchor="middle"><text x="310" y="83">Perspective 1</text><text x="310" y="195">Perspective 2</text><text x="310" y="307">Perspective 3</text></g>
+<g stroke="#b9c3cc" stroke-width="2"><path d="M370 78H660"/><path d="M370 190H476"/><path d="M370 302H680"/></g>
+<g font-size="14" font-weight="700" text-anchor="middle">
+<g fill="#fff" stroke="#9aa7b3" stroke-width="2">
+<circle cx="430" cy="78" r="14"/><circle cx="474" cy="78" r="14"/><circle cx="518" cy="78" r="14"/><circle cx="562" cy="78" r="14"/>
+<circle cx="430" cy="190" r="14"/>
+<circle cx="430" cy="302" r="14"/><circle cx="474" cy="302" r="14"/><circle cx="518" cy="302" r="14"/><circle cx="562" cy="302" r="14"/><circle cx="606" cy="302" r="14"/><circle cx="650" cy="302" r="14"/></g>
+<g fill="#7b8794"><text x="430" y="82">1</text><text x="474" y="82">2</text><text x="518" y="82">3</text><text x="562" y="82">4</text><text x="430" y="194">1</text>
+<text x="430" y="306">1</text><text x="474" y="306">2</text><text x="518" y="306">3</text><text x="562" y="306">4</text><text x="606" y="306">5</text><text x="650" y="306">6</text></g>
+<g fill="#3d8a6e" stroke="#2e6f57" stroke-width="2"><circle cx="606" cy="78" r="14"/><circle cx="474" cy="190" r="14"/></g>
+<g fill="#fff"><text x="606" y="82">5</text><text x="474" y="194">2</text></g></g>
+<g fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"><path d="M620 78H712"/><path d="M488 190H712"/></g>
+<path d="M664 302H712" fill="none" stroke="#b9533a" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<g stroke-width="2"><rect x="720" y="52" width="360" height="52" rx="8" fill="#f2f8f4" stroke="#3d8a6e"/><rect x="720" y="164" width="360" height="52" rx="8" fill="#f2f8f4" stroke="#3d8a6e"/><rect x="720" y="276" width="360" height="52" rx="8" fill="#fbf3f0" stroke="#b9533a"/></g>
+<g font-size="16"><text x="736" y="76" font-weight="700">Passed final review (idea 5)</text><text x="736" y="96" fill="#55657a" font-size="15">progress 3.00 · 28 h · rank 2 in subproblem</text>
+<text x="736" y="188" font-weight="700">Passed final review (idea 2)</text><text x="736" y="208" fill="#55657a" font-size="15">progress 5.50 · 25 h · rank 1 in subproblem</text>
+<text x="736" y="300" font-weight="700" fill="#9b3f28">No result: idea limit reached</text><text x="736" y="320" fill="#55657a" font-size="15">none of 6 ideas passed · progress 0.00</text></g>
+<g font-size="14.5" fill="#6b7a86"><circle cx="380" cy="352" r="7" fill="#fff" stroke="#9aa7b3" stroke-width="2"/><text x="394" y="356">idea not passed, replaced</text>
+<circle cx="660" cy="352" r="7" fill="#3d8a6e"/><text x="674" y="356">idea whose proof passed final review</text></g>
+</g></svg>

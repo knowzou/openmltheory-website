@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MLtheorybench: Evaluating Proofs in Machine Learning Theory</title>
+<link rel="alternate" hreflang="zh-CN" href="index.html">
+<link rel="alternate" hreflang="en" href="index.en.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,800;1,400&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --text: rgba(0,0,0,.85);
+  --muted: rgba(0,0,0,.6);
+  --border: rgba(0,0,0,.1);
+  --surface: #f9f9f9;
+  --primary: #ec956a;
+  --primary-hover: #db865a;
+  --font: "Source Sans 3", "Source Sans Pro", -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+* { box-sizing: border-box; }
+html { font-size: 16px; line-height: 1.75; background: #fff; }
+body { margin: 0; font-family: var(--font); color: var(--text); }
+
+/* top bar */
+.topbar { display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 24px; border-bottom: 1px solid var(--border); font-size: 15px; }
+.topbar b { font-weight: 700; }
+.topbar span { color: var(--muted); }
+.topbar-actions { display: flex; align-items: center; gap: 16px; }
+.language-switch { display: flex; gap: 4px; }
+.language-switch a { padding: 3px 10px; border: 1px solid var(--border); border-radius: 5px;
+  color: var(--muted); text-decoration: none; font-size: 13px; }
+.language-switch a[aria-current="page"] { color: var(--text); background: var(--surface); font-weight: 600; }
+.language-switch a:hover, .language-switch a:focus-visible { border-color: var(--primary); color: var(--text); }
+
+/* hero */
+.hero { text-align: center; padding: 64px 16px 18px; }
+.hero h1 { font-size: clamp(32px, 4.6vw, 50px); font-weight: 800; line-height: 1.15;
+  letter-spacing: -.01em; margin: 0 auto 10px; max-width: 820px; }
+.hero h1 .sub { display: block; font-size: .7em; font-weight: 700; margin-top: 6px; }
+.hero .desc { color: var(--muted); font-style: italic; margin: 0 auto; max-width: 640px; }
+.meta { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  margin-top: 28px; padding: 16px; }
+.meta-inner { max-width: 760px; margin: 0 auto; display: flex; gap: 32px; flex-wrap: nowrap; justify-content: space-between; }
+.meta-inner > div { flex: 0 1 auto; min-width: 0; }
+.meta h3 { margin: 0 0 4px; font-size: 12px; font-weight: 400; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .03em; }
+.meta p { margin: 0; font-size: 15px; }
+.meta a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+
+/* layout */
+.grid { max-width: 1280px; margin: 40px auto 0; padding: 0 16px;
+  display: grid; grid-template-columns: 260px minmax(0, 680px) 260px; gap: 32px; align-items: start; }
+nav.toc { position: sticky; top: 28px; font-size: 13.5px; line-height: 1.45; }
+nav.toc .title { font-weight: 700; margin-bottom: 10px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0 0 0 16px; border-left: 1px solid var(--border); }
+nav.toc li { margin: 0 0 9px; }
+nav.toc a { color: var(--text); text-decoration: none; font-weight: 600; }
+nav.toc a:hover, nav.toc a.active { color: var(--primary); }
+main { min-width: 0; }
+main p { margin: 0 0 16px; }
+main h2 { font-weight: 600; font-size: clamp(22px, 2.5vw, 30px); line-height: 1.25;
+  margin: 72px 0 28px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+main h2:first-child { margin-top: 0; }
+main h3 { font-weight: 700; font-size: clamp(18px, 2vw, 21px); line-height: 1.3; margin: 48px 0 18px; }
+main strong { font-weight: 700; }
+main h4 { font-weight: 700; font-size: 16.5px; margin: 30px 0 12px; }
+nav.toc li.sub { margin: 0 0 6px 12px; }
+nav.toc li.sub a { font-weight: 400; color: var(--muted); }
+main a { color: var(--primary); text-decoration: none; border-bottom: 1px solid rgba(236,149,106,.4); }
+main ol, main ul { padding-left: 24px; margin: 0 0 16px; }
+main li { margin-bottom: 8px; }
+.math { font-family: "Times New Roman", "STIX Two Text", serif; font-style: italic; white-space: nowrap; }
+
+/* note */
+.note { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--primary);
+  border-radius: 6px; padding: 16px 20px; margin: 28px 0; font-size: 15px; }
+.note .h { font-weight: 700; margin-bottom: 6px; }
+.note p:last-child { margin-bottom: 0; }
+
+/* figures */
+figure { margin: 32px 0; }
+figure img { width: 100%; display: block; border-radius: 4px; }
+figure.wide { margin-left: -60px; margin-right: -60px; }
+figure.flowchart { padding: 14px 16px 12px; border: 1px solid #d9dee7; border-radius: 10px;
+  background: #fbfcfe; box-shadow: 0 8px 24px rgba(28,45,68,.07); }
+figure.flowchart img { border: 1px solid #eef1f5; background: #fff; }
+figcaption { font-size: 14px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+figcaption b { color: var(--text); font-weight: 600; }
+
+/* tables */
+.table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface); margin: 0 0 24px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { padding: 7px 10px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border);
+  text-align: left; white-space: nowrap; vertical-align: top; }
+th:last-child, td:last-child { border-right: none; }
+tbody tr:last-child td { border-bottom: none; }
+thead th { background: #f0f0f0; font-weight: 600; }
+tbody tr:nth-child(odd) td { background: #f5f5f5; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+.tcap { font-size: 14px; color: var(--muted); margin: -12px 0 24px; }
+
+/* details */
+details { border: 1px solid var(--border); border-radius: 6px; padding: 12px 18px; margin: 20px 0 24px;
+  background: #fff; font-size: 15px; }
+summary { cursor: pointer; font-weight: 600; }
+details[open] summary { margin-bottom: 10px; }
+details p:last-child { margin-bottom: 0; }
+
+blockquote { border-left: 2px solid var(--border); padding-left: 22px; margin: 28px 0;
+  font-style: italic; color: var(--muted); font-size: 17px; }
+hr { border: none; border-bottom: 1px solid var(--border); margin: 40px 0; }
+ol.refs { font-size: 14px; padding-left: 20px; color: var(--muted); }
+ol.refs li { margin-bottom: 10px; }
+ol.refs a { color: var(--muted); border-bottom: 1px solid var(--border); }
+footer { text-align: center; color: var(--muted); font-size: 13px; padding: 60px 16px 40px; }
+
+/* reading aids */
+.tldr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 8px 0 28px; }
+.tile { border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; background: var(--surface); }
+.tile .v { font-size: 30px; font-weight: 700; line-height: 1.1; color: var(--text); }
+.tile .v small { font-size: 16px; font-weight: 600; color: var(--muted); }
+.tile .l { font-size: 13.5px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+p.lede { font-size: 17px; color: var(--muted); margin: -12px 0 22px; }
+dl.gloss { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 4px 0 0; }
+dl.gloss dt { font-weight: 700; }
+dl.gloss dd { margin: 0; }
+.case { border: 1px solid #b9dcc6; background: #f3faf5; border-radius: 8px; padding: 14px 18px;
+  margin: 26px 0; font-size: 15px; }
+.case .h { font-weight: 700; color: #2e7d4f; margin-bottom: 6px; }
+.case .h::before { content: "Example task · "; }
+.case p:last-child { margin-bottom: 0; }
+.example-task { margin: 26px 0 20px; border: 1px solid #c7d8ee; border-radius: 10px;
+  background: #f7faff; overflow: hidden; }
+.example-task .task-band { padding: 10px 18px; border-bottom: 1px solid #d9e5f4;
+  background: #eaf2fc; color: #285b91; font-size: 14px; font-weight: 700; letter-spacing: .02em; }
+.example-task .task-body { padding: 6px 20px 4px; }
+.example-task .task-body p:last-child { margin-bottom: 12px; }
+.example-task .formula { margin: 12px 0 16px; padding: 12px 16px; border: 1px solid #d8e2ef;
+  border-left: 3px solid #6e9ed1; border-radius: 6px; background: #fff; }
+.example-notes { margin: 22px 0 26px; padding: 2px 0 2px 18px; border-left: 3px solid #8da9c6; }
+.example-notes .h { margin-bottom: 8px; font-weight: 700; color: #285b91; }
+.example-notes ul { margin: 0; padding-left: 22px; }
+.example-notes li { margin-bottom: 8px; font-size: 15px; }
+.example-notes li:last-child { margin-bottom: 0; }
+@media (max-width: 700px) { .tldr { grid-template-columns: 1fr; } }
+
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: minmax(0, 1fr); max-width: 720px; }
+  nav.toc { display: none; }
+  figure.wide { margin-left: 0; margin-right: 0; }
+}
+@media print {
+  @page { size: A4; margin: 16mm 15mm; }
+  html { font-size: 14px; }
+  .topbar, nav.toc, .grid > aside, footer { display: none; }
+  .grid { display: block; max-width: none; margin: 24px 0 0; padding: 0; }
+  .hero { padding-top: 20px; }
+  figure.wide { margin-left: 0; margin-right: 0; }
+  figure img { max-height: 76mm; object-fit: contain; }
+  figure { margin: 18px 0; }
+  figure, .table-scroll, .note, .case, .tldr, details, blockquote { break-inside: avoid; }
+  h2, h3, h4 { break-after: avoid; }
+  main h2:not(:first-child) { break-before: page; }
+  details { border: none; padding: 0 0 0 14px; border-left: 2px solid var(--border); border-radius: 0; }
+  main a { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><b>MLtheorybench</b><div class="topbar-actions"><span>Blog</span>
+  <nav class="language-switch" aria-label="Choose language">
+    <a href="index.html" lang="zh-CN" hreflang="zh-CN">中文</a>
+    <a href="index.en.html" lang="en" hreflang="en" aria-current="page">English</a>
+  </nav>
+</div></div>
+
+<header class="hero">
+  <h1>MLtheorybench<span class="sub">Evaluating Proofs in Machine Learning Theory</span></h1>
+  <p class="desc">885 proof tasks from 2026 arXiv papers in machine learning theory, used to compare seven models.</p>
+  <div class="meta"><div class="meta-inner">
+    <div><h3>Authors</h3><p><a href="#">Shaocheng Zhou</a>, <a href="#">Decheng Zhang</a>, <a href="#">Difan Zou</a></p></div>
+    <div><h3>Affiliation</h3><p><a href="https://www.hku.hk/" target="_blank" rel="noopener noreferrer">The University of Hong Kong</a></p></div>
+    <div><h3>Updated</h3><p>Oct, 26, 2026</p></div>
+  </div></div>
+</header>
+
+<div class="grid">
+<nav class="toc" id="toc"><div class="title">Table of Contents</div><ol></ol></nav>
+
+<main>
+<h2 id="intro">1. Background</h2>
+
+<div class="tldr">
+  <div class="tile"><div class="v">885 <small>tasks</small></div><div class="l">From January–July 2026 arXiv papers in machine learning theory, checked against the source and reviewed independently</div></div>
+  <div class="tile"><div class="v">84.7% <small>/ 24.3%</small></div><div class="l">Essential completion on research-level tasks (PRC4): GPT-6 / the highest rate among the other five models</div></div>
+  <div class="tile"><div class="v">≥ 95%</div><div class="l">Detection rate for planted substantive errors across three review models in the Lean 4 cross-check</div></div>
+</div>
+
+<h3 id="intro-question">1.1 Research Questions and Motivation</h3>
+
+<p>In October 2026, OpenAI released mathematical research results obtained by its internal models, some with formal proofs in Lean (<a class="citation" href="#ref-openai-2026">OpenAI, 2026</a>). These examples show that models can produce research-level results, but they report successful cases. Researchers also need to know how models perform on a fixed set of research-level problems. With the same computation budget and number of attempts, how many proofs can each model complete? When a proof is incomplete, what valid progress does it make, and which key steps remain missing?</p>
+
+<p>Answering these questions requires three conditions. First, the problem set must be fixed before evaluation and cover a range of difficulty, so we can measure completion rates and identify where models fail. Second, all models must receive the same inputs, tools, and token budget for a direct comparison. Third, scoring must record the mathematical work completed in correct, partial, and incorrect proofs. MLtheorybench is built around these three conditions.</p>
+
+<p>We use machine learning theory papers for three reasons. First, the field produces many papers: we collected 3,320 relevant papers from stat.ML, cs.LG, and math.OC between January and July 2026. Recent papers reduce the chance that the original proofs appeared in a model's training data. Second, each paper provides human-written proofs that can serve as references. Third, machine learning theory proofs depend on precise assumptions and derivations, such as the difference between bounds in expectation and with high probability, or between fixed parameters and parameters selected from data. These details help test whether a proof is complete.</p>
+
+<p>Turning papers into tasks presents three problems. Definitions and assumptions are spread throughout a paper, so extracting a theorem alone can omit conditions. The paper itself may contain errors, so its proof needs checking before it can serve as a reference. Finally, evaluating many research-level proofs requires model-assisted scoring, whose reliability also needs to be tested.</p>
+
+<p>Section 2 describes dataset construction: paper selection, the unit of a task, task checks, complexity ratings assigned before solving, and errors recorded in the source papers. Section 3 describes solving and scoring, tests the review models with a Lean 4 cross-check, and reports model results. Section 4 discusses the main findings and future work.</p>
+
+<div class="note chapter-summary">
+  <p><strong>MLtheorybench turns proofs from recent machine learning theory papers into fixed tasks, gives seven models the same budget, and scores the core steps they complete.</strong> It also checks how reliably review models identify proof errors.</p>
+</div>
+
+<figure class="wide flowchart">
+  <img src="assets/figures/fig1_pipeline_en.png" alt="Task construction and model evaluation">
+  <figcaption><b>Figure 1.</b> Task construction and evaluation. Top: from papers to fixed tasks. Bottom: closed-book solving and two-stage review. Gray boxes show two supporting analyses: source-paper errors recorded during construction (Section 2.5) and the Lean 4 cross-check (Section 3.2).</figcaption>
+</figure>
+
+<h3 id="intro-case">1.2 Example Task</h3>
+
+<div class="example-task">
+  <div class="task-band">Public problem statement</div>
+  <div class="task-body">
+    <p>At each step, a local rule selects an action from the current state. The action is appended to the history, and generation continues until it stops. The ordered actions form a trajectory. The learning goal is to predict the entire trajectory. A mismatch at any position counts as one prediction error.</p>
+
+    <p>Let ℋ be the class of local prediction rules, and let <span class="math">d</span> = DSdim(ℋ) be its DS dimension, a measure of class complexity in multiclass learning. PAC learning controls two probabilities: the learned rule must predict the entire trajectory on a new example with error probability at most <span class="math">ε</span>, and this guarantee must hold with probability at least 1 − <span class="math">δ</span> over the randomly drawn training sample. Prove that the number of training examples needed satisfies</p>
+    <p class="formula" style="text-align:center"><span class="math">n</span>(<span class="math">ε</span>, <span class="math">δ</span>) ≤ <span class="math">C</span> · (<span class="math">d</span> + log(1/<span class="math">δ</span>)) / <span class="math">ε</span>,</p>
+    <p>Here <span class="math">C</span> is a constant. Also prove a worst-case lower bound of the same order. The upper bound has no trajectory-length factor. Each generation must eventually stop, but there need not be a uniform upper bound on trajectory length.</p>
+  </div>
+</div>
+
+<div class="example-notes">
+  <div class="h">What the task contains</div>
+  <ul>
+    <li><strong>Conditions:</strong> the local rules, trajectory generation process, stopping condition, and PAC learning objective.</li>
+    <li><strong>Target results:</strong> a sample complexity upper bound without a trajectory-length factor, and a matching worst-case lower bound.</li>
+    <li><strong>Proof structure:</strong> the statement gives only the upper and lower bounds to be proved. Two intermediate results needed for the upper bound remain in the private reference proof; the solver must find and prove them.</li>
+    <li><strong>Use later in this post:</strong> this task illustrates result selection, PRC assessment, and scoring.</li>
+  </ul>
+</div>
+
+<h2 id="data">2. Dataset Construction</h2>
+
+<p>This section explains how we turn papers into fixed tasks: select papers (2.1), decide what each task covers (2.2), check the statement and reference proof (2.3), assess complexity before solving (2.4), and report errors found in the source papers (2.5).</p>
+
+<div class="note chapter-summary">
+  <p><strong>The final dataset contains 885 checked tasks, each covering a main theoretical contribution. Proof Reconstruction Complexity (PRC) is assessed before models attempt the tasks.</strong> Among the 2,313 papers that passed theoretical screening, 57.2% retained substantive error records, and 25.9% received paper-impact ratings of 3–4: an important central result or the main theoretical contribution lacked support.</p>
+</div>
+
+<h3 id="data-collect">2.1 Paper Collection and Screening</h3>
+
+<p>We collected 3,320 arXiv papers posted between January 1 and July 27, 2026, from the following categories:</p>
+
+<div class="table-scroll"><table>
+<thead><tr><th>Source</th><th class="n">Papers</th></tr></thead>
+<tbody>
+<tr><td>Primary category: stat.ML</td><td class="n">1,583</td></tr>
+<tr><td>Primary category: cs.LG; cross-listed in stat.ML</td><td class="n">1,448</td></tr>
+<tr><td>Primary category: math.OC; ML relevance checked from the title and abstract</td><td class="n">289</td></tr>
+<tr><td><strong>Total</strong></td><td class="n"><strong>3,320</strong></td></tr>
+</tbody></table></div>
+
+<p>Not every paper in these categories has enough theoretical content for a task. In our samples, some papers were mainly experimental. Others contained theorems that added explanations of experimental observations without explaining why the method worked.</p>
+
+<p>We therefore first classify each paper's contribution. Papers whose theory is limited to explaining experimental observations or routine derivations are excluded. Papers with new theoretical results as their main contribution proceed directly. For papers focused on methods or other contributions, we check whether they contain a sufficiently complete and representative proof for a task. Classification follows the actual theoretical content. Initially excluded papers receive an independent second check. This stage excluded 1,007 papers and retained 2,313 for further construction.</p>
+
+<p>We take three steps to reduce reliance on existing answers. We select recent papers to reduce the chance that their proofs appeared in training data. During task construction, we remove titles, authors, arXiv IDs, original theorem numbers, and distinctive method names that could identify the source. During solving, models receive only the problem statement and common instructions. They cannot see the paper, reference proof, or rubric, and cannot search, retrieve information, or call other tools.</p>
+
+<h3 id="data-chain">2.2 Task Unit: One Theoretical Contribution</h3>
+
+<p>The structure of machine learning theory papers makes one theorem per task an unreliable rule. Research-level theorems often depend on data models, algorithm settings, and regularity conditions that are stated in different parts of a paper and shared by several results. Extracting the theorem alone can omit necessary conditions. A theoretical contribution can also consist of several results: matching upper and lower bounds establish an optimal rate, while a general theorem and a key application explain how a result applies to a specific problem. Much of the proof difficulty may lie in lemmas supporting the main theorem.</p>
+
+<p>We tried two approaches early on. The first assigned one theorem to each task. If theorem B uses theorem A, omitting A creates substantial overlap in proof work, while supplying A can reveal the most important intermediate step and turn B into a simple corollary. The second grouped every theorem in a paper into subquestions. Their order can reveal the proof route. Combining independent branches also adds work unrelated to the main proof difficulty and affects the complexity assessment.</p>
+
+<p>We therefore make each task cover <strong>one main theoretical contribution</strong>: a set of results answering the same research question, with the main proof work preserved. The results need not depend on each other, but must address the same problem. Examples include matching upper and lower bounds, necessary and sufficient conditions, or a general result with a closely related application. The statement presents them as one proof task. Key intermediate results appear only in the private reference proof; the solver must discover and prove them.</p>
+
+<figure class="wide flowchart">
+  <img src="assets/figures/fig2_case_chain_en.png" alt="Selected results and reference proof structure for the example task">
+  <figcaption><b>Figure 2.</b> Results selected for the example task. Green: the two public targets, the upper bound (Thm 1.1) and matching lower bound (Cor 3.8). Blue: two structural results used in the private reference proof but not supplied to solvers. Gray: other branches excluded from the task. The rubric and PRC rating are shown below.</figcaption>
+</figure>
+
+<div class="case">
+  <div class="h">Selecting the results</div>
+  <p>The example task combines the sample complexity upper bound and matching lower bound because together they establish the optimal order. The two intermediate results supporting the upper bound stay in the reference proof and are not presented as subquestions. Other counterexamples and applications in the paper are excluded from this task; Figure 2 shows the selected results.</p>
+</div>
+
+<p>Selection has two steps. First, a model reads the full paper, organizes its theoretical material, and proposes at most four candidate groups of results. It scores each group from 0–3 on three criteria: coverage of the main theory, completeness of the results and supporting proofs, and whether the results belong to one line of argument. A zero on any criterion excludes the group; a total of at least 8/9 is required for further comparison. Qualifying groups are then compared on how well they preserve the original proof's main difficulties and methods. For the example, the upper bound with a matching lower bound scored 9, while another group concerning the new combinatorial dimension and its properties scored 8.</p>
+
+<p>Second, the selected derivations are checked for correctness. Selecting results before checking their proofs keeps selection based on the theoretical contribution itself.</p>
+
+<p>We also tried reconstructing the full paper's theorem dependency graph before choosing a task. Graphs produced from a full reading often missed dependencies, while checking every pair of results took substantial work. We now first list definitions, assumptions, and theoretical results, then recover the definitions, lemmas, and external results needed for each candidate. Conditions missed at this stage are restored during later revision against the full paper (Section 2.3). If an upstream result has a substantive error, results depending on it are also flagged.</p>
+
+<p>Once results are selected, construction produces three core files: a public problem statement, a reference proof covering the target results, and a rubric assigning 10 points across 2–5 core steps. A separate provenance record maps the task conditions and reference proof steps to their source locations. Solvers see only the statement. All tasks allow standard mathematical theorems. We do not list permitted lemmas separately, since doing so could reveal the proof route. Scoring accepts correct routes beyond the reference proof.</p>
+
+<h3 id="clean">2.3 Task Checks</h3>
+
+<p>Research proofs often omit steps. Most omissions can be filled using standard knowledge, but some hide missing assumptions or invalid reasoning. An incorrect reference proof can lead to incorrect scoring. A missing condition can make the task's conclusion false. Each task therefore undergoes two rounds of checks before models attempt it.</p>
+
+<p><strong>Checking the source proof.</strong> After candidate results are selected, a model recovers their full statements and proofs, including shared assumptions outside the theorem boxes. It checks the validity of the statements and completeness of the proofs separately, marking them as correct, locally repairable, or affected by a problem that changes the result. Candidate groups are checked in rank order, and the first group without substantive errors is selected. If all qualifying groups have substantive errors, the paper contributes no task. A paper with errors in an unselected branch can still supply a task from another valid group. Errors in other results are recorded separately (Section 2.5).</p>
+
+<p><strong>Separating revision from checking.</strong> Initial task construction gives the authoring model only the selected material, helping it focus on the chosen contribution and keep unrelated branches out of the statement. This has two consequences. If extraction misses a shared assumption stated elsewhere, the authoring model cannot recover it. Also, when generation and self-review occur in the same conversation, the model may reuse its earlier mathematical interpretation and miss construction errors. Later tests did find statements missing shared assumptions lost during extraction.</p>
+
+<p>We therefore added a revision round and placed revision and checking in separate conversations. The <em>revision model</em> reads the paper and the latest statement, reference proof, and rubric. It checks the distributions of random variables, the order of parameter choices, the information available at each step, and which parameters the constants depend on, then corrects omissions and extraction errors.</p>
+
+<p>The <em>checking model</em> receives only the latest statement and reference proof in a fresh conversation. It investigates specific concerns through derivations or counterexamples, distinguishing gaps in the reference proof from problems with the task's conclusion. Each revision is checked in another fresh conversation, with at most three checks and two feedback revisions. We retain the latest version that actually passed a check. Tasks with confirmed substantive source problems are recorded as paper issues. Tasks still unresolved at the feedback limit are excluded from formal scoring.</p>
+
+<p>The final dataset contains 885 tasks. Of these, 867 have scores from all seven models; all model comparisons below use these 867 tasks. Manual spot checks of more than ten final tasks found no substantive errors in their statements or reference proofs.</p>
+
+<h3 id="prc">2.4 Proof Reconstruction Complexity (PRC)</h3>
+
+<p>The theoretical depth of arXiv papers varies widely. Even after papers with insufficient theory are removed, many tasks have relatively simple proofs. They raise overall mean scores and can obscure differences on harder tasks, so we report results by task complexity. Groups must be assigned before solving and based only on the task. Defining difficulty from scores and then explaining scores with that difficulty would not independently test the classification.</p>
+
+<p>We call this measure <strong>Proof Reconstruction Complexity (PRC)</strong>. Given only the statement and access to standard mathematical knowledge, it assesses the ideas needed to find a complete proof, the intermediate results to establish, the difficult derivations to complete, and the mathematical tools to combine. The design draws on the distinction between complexity and difficulty in educational assessment (<a class="citation" href="#ref-webb">Webb</a>; <a class="citation" href="#ref-timss-2023">TIMSS 2023</a>; <a class="citation" href="#ref-pisa-2022">PISA 2022</a>). Complexity is assessed before an attempt from the reasoning and derivations required; difficulty is observed from actual performance.</p>
+
+<p>The assessor first lists the key proof steps not supplied in the statement, usually 3–7, such as constructing a function, deriving an error estimate, or proving the reverse direction. Each of four dimensions is then scored from 0–3:</p>
+
+<div class="table-scroll"><table>
+<thead><tr><th>Dimension</th><th>What it assesses</th><th>From lower to higher scores</th></tr></thead>
+<tbody>
+<tr><td>S: Strategy discovery</td><td style="white-space:normal">Ideas beyond definitions and familiar methods needed to find a proof route</td><td style="white-space:normal">Apply definitions or familiar methods → independently discover and combine several key proof ideas</td></tr>
+<tr><td>D: Subgoal structure</td><td style="white-space:normal">Intermediate results to prove and their dependencies</td><td style="white-space:normal">One intermediate result or a short chain → several interdependent groups of results supporting the conclusion</td></tr>
+<tr><td>T: Technical execution</td><td style="white-space:normal">Difficulty of the derivations once the proof route is known</td><td style="white-space:normal">Direct calculation or routine derivation → several steps requiring specially designed arguments or constructions</td></tr>
+<tr><td>C: Capability integration</td><td style="white-space:normal">Mathematical tools that the proof must combine</td><td style="white-space:normal">Mainly one tool → probability estimates, analysis, combinatorial arguments, and constructions jointly support key steps</td></tr>
+</tbody></table></div>
+
+<p>The four dimensions are scored separately because complexity has different sources. A proof organizing many simple intermediate results may have high D and low T. A proof with few intermediate results but difficult estimates may have low D and high T. Scores of 2 or 3 on any dimension need specific mathematical justification. A T score of 3 also requires at least two research-level difficult steps and an explanation of why routine derivations do not resolve them. Length, notation, and advanced terminology alone do not justify a high score.</p>
+
+<p>The assessment also checks whether the statement reveals the proof route, which would reduce its actual complexity. A limited hint subtracts 1 point from the total. If the statement reveals several key intermediate goals or a decisive method, it must be revised before reassessment.</p>
+
+<p>The four scores are summed, with any hint penalty deducted, and mapped to PRC0–PRC4 as shown below. PRC4 requires a total of at least 11 and scores of 3 in both strategy discovery and technical execution. Both finding the route and carrying out its derivations must meet the highest category. Among the 867 tasks, PRC0–PRC4 contain 61, 316, 237, 109, and 144 tasks, respectively.</p>
+
+<figure class="wide flowchart">
+  <img src="assets/figures/fig3_prc.png" alt="PRC distribution and level mapping">
+  <figcaption><b>Figure 3.</b> Left: PRC distribution of the 867 tasks. Right: rules mapping the four-dimensional total score to a PRC level.</figcaption>
+</figure>
+
+<div class="case">
+  <div class="h">PRC assessment</div>
+  <p>The example receives S = D = T = C = 3, with no proof-route hints, placing it in PRC4. This follows from the source proof's structure. A solver must find a combinatorial dimension suitable for local rules, prove that it bounds the complexity needed for learning, show that the dimension does not increase when generating full trajectories, and derive the requested sample bound. Using DS dimension directly does not complete the proof: Theorem 3.6 in the source gives a counterexample with local DS dimension 2 and full-trajectory DS dimension at least 3. This assessment was completed before any model attempted the task.</p>
+</div>
+
+<p>PRC was fixed before solving and was not changed in response to results, so model performance can test the classification (Section 3.3). Across all seven models, scores generally decrease as PRC increases. Spearman correlations are −0.276 for GPT-5.6 and −0.221 for GPT-6, compared with −0.580 to −0.691 for the other models. The two GPT models' scores are concentrated near the top, giving weaker correlations.</p>
+
+<h3 id="errors">2.5 Errors Recorded in Source Papers</h3>
+
+<p>We also recorded errors found during source checking and later revision (Section 2.3). Some can be repaired by adding assumptions or correcting derivations, but the repair may change where a result applies. We therefore separately record where the argument fails, the mathematical work needed to repair it, and how much of the original contribution remains supported.</p>
+
+<p>The audit retains only issues with substantive effects on the mathematical argument. It excludes typos whose intended reading is clear, omissions that standard knowledge can directly fill, and small local errors that do not change the conditions, conclusion, or proof structure.</p>
+
+<p>Assessment has three levels. For each error, we classify the failure and assess how much new mathematical work a repair requires (repair difficulty). For each result, we combine repairs to the result and its dependencies, then assess changes to conditions, scope, and strength (result impact). For the paper, we account for dependencies between results and assess how much of the main theoretical contribution survives (paper impact). An error in one theorem may affect only part of a paper; narrowing several results at once may leave the main contribution unsupported.</p>
+
+<p>Two review models check each paper in independent conversations. A further reviewer with access to the source then checks all candidate issues. It removes typos and unsupported error claims, merges duplicate descriptions, separates independent errors, rechecks counterexamples, and assigns repair difficulty, result impact, and paper impact. On a small manually checked sample, this process agreed with human judgments more often than a single review.</p>
+
+<figure class="wide">
+  <img src="assets/figures/fig8_error_audit.png" alt="Errors recorded in source papers">
+  <figcaption><b>Figure 4.</b> Left: review status of the 2,313 papers passing theoretical screening; dark red marks paper impact ≥ 3. Center: the distribution of 8,522 errors by type. Right: hardest repair level versus paper impact across 1,321 papers; one paper without a repair rating is excluded. Red boxes mark the two cases discussed below.</figcaption>
+</figure>
+
+<p>Among the 2,313 papers passing theoretical screening, 1,322 (57.2%) retained substantive error records after review, 633 (27.4%) had no retained substantive errors in the current audit, and 358 (15.5%) still needed error evidence checked or impact assessment completed. Across the 1,322 papers with error records, the audit covered 4,426 results and retained 8,522 errors, with a median of 4 and mean of 6.45 errors per paper.</p>
+
+<p>Errors are classified by where the argument fails:</p>
+<ul>
+  <li><strong>Invalid inference</strong> (50.4%): a derivation or theorem application is unsupported by the available assumptions. An example is applying a probability guarantee for a fixed parameter to a parameter selected using the same data.</li>
+  <li><strong>Calculation error</strong> (21.9%): an algebraic or numerical error that affects the result.</li>
+  <li><strong>Incomplete argument</strong> (14.1%): the established steps do not cover the full target, such as proving an expectation bound while claiming a high-probability guarantee.</li>
+  <li><strong>Required object does not exist</strong> (13.6%): the statement requires an object that need not exist under its conditions. For example, a function has an infimum that is never attained, yet the proof uses a minimizer.</li>
+</ul>
+<p>Classifying the failure allows a specific proof issue to be recorded before a counterexample is found. Under a split between “proof error” and “statement error,” the same issue could change category when a counterexample is found, making classification depend on the reviewer's ability to construct one.</p>
+
+<p>Repair difficulty has four levels. Level 1 permits direct correction. Level 2 needs a bounded local argument. Level 3 requires rebuilding a key argument or changing the conditions and conclusions used at a key step. Level 4 requires positive evidence that the main proof method must be reconstructed or the result withdrawn. Among the 8,513 errors with numerical ratings, mean repair difficulty is 1.47, and 57.1% allow direct correction.</p>
+
+<p>Among errors requiring repair level 2 or higher, invalid inference and incomplete argument account for 80.3%. Common issues include misapplied theorems, missing arguments connecting intermediate results to the target, and transferring a conclusion from one distribution to a conditional distribution or another set of random variables without justification.</p>
+
+<p>Repair effort and impact on the contribution need separate judgments. Suppose an algorithm takes O(<span class="math">n</span>) work per round for <span class="math">n</span> rounds, but the paper reports O(<span class="math">n</span>) total work. Correcting this to O(<span class="math">n</span><sup>2</sup>) needs only a recalculation, so repair difficulty is level 1. But if linear runtime is the paper's main advantage, that advantage no longer holds after correction.</p>
+
+<p>Result impact has four levels. Level 1 preserves the main guarantee and useful scope. Level 2 adds conditions or narrows part of the scope while retaining the main use. Level 3 supports a substantially weaker result, losing an important guarantee or regime. Level 4 leaves no supported, nonvacuous result with substantially the original use. We assess what survives using valid source arguments and supplements that follow from standard knowledge.</p>
+
+<p>Paper impact measures how these changes affect the paper's main contribution. Level 1 preserves it. Level 2 changes the scope or secondary guarantees substantially while retaining the main contribution. At level 3, an important central result lacks support, but other valuable results remain. At level 4, the main theoretical claim or method guarantee stated in the abstract lacks support. The 1,322 papers with error records have 141, 583, 458, and 140 papers at levels 1–4, respectively.</p>
+
+<p>Jointly counting repair difficulty and paper impact, 54 papers have hardest repair level 1 but paper impact 3–4. Another 98 have hardest repair level 2 and paper impact 1. In total, 598 papers have paper impact at least 3, or 25.9% of the 2,313 papers.</p>
+
+<h2 id="eval">3. Evaluation Results</h2>
+
+<p>This section describes solving and scoring (3.1), tests review reliability on samples with known correctness (3.2), and reports results for seven models (3.3–3.6).</p>
+
+<div class="note chapter-summary">
+  <p><strong>Model differences are largest on high-complexity tasks. On PRC4, essential completion (score ≥ 8) is 84.7% for GPT-6 and 76.4% for GPT-5.6; the highest rate among the other five models is 24.3%.</strong> With larger budgets on 30 selected tasks, DeepSeek, Kimi, and Qwen all submitted answers to every task, but only 1–4 answers per model reached 8 points.</p>
+</div>
+
+<h3 id="score">3.1 Solving and Scoring</h3>
+
+<h4 id="score-setting">Solving setup</h4>
+
+<p>Each model receives the same problem statement and general instructions in an independent request, with one attempt and no internet access, retrieval, or tool calls. The main experiment allows 48,000 generation tokens, including reasoning tokens counted by the provider. The prompt states that reasoning and final output share this limit. If a model cannot complete the proof, it is asked to submit valid results already established and identify the remaining gaps. Attempts without a final answer score 0 and remain in every statistical denominator.</p>
+
+<h4 id="score-two">Two-stage review</h4>
+
+<p>A reviewer that sees the reference proof immediately may reject a correct alternative route or use the reference to fill steps missing from the answer. We therefore use two-stage review. The design draws on the open-problem review process in VALG (<a class="citation" href="#ref-valg-2026">Zhang et al., 2026</a>), with reference comparison and partial-credit scoring added.</p>
+
+<p><strong>Stage 1</strong> sees only the statement and anonymous answer, without the reference proof or rubric. It checks assumptions, the applicability of external theorems, and key derivations. It judges validity only from the mathematics actually written and must not fill missing steps.</p>
+
+<p><strong>Stage 2</strong> uses the answer, first-stage report, reference proof, and rubric. It verifies reported issues, maps completed work to the rubric's core steps, and assigns a score. Anonymous answers to the same task are scored separately within one review to reduce inconsistencies between review batches. GPT-6 is the main experiment's review model.</p>
+
+<h4 id="score-scale">Ten-point scale and partial credit</h4>
+
+<p>Research proofs need more detail than a completion label. An answer may prove a key lemma without deriving the target result, or establish the lower bound while leaving the main upper bound unresolved. A binary label loses this information. We score the mathematical work actually completed:</p>
+
+<div class="table-scroll"><table>
+<thead><tr><th>Score</th><th>Work completed</th></tr></thead>
+<tbody>
+<tr><td>0</td><td style="white-space:normal">No correct relevant idea or useful method; no final answer also scores 0</td></tr>
+<tr><td>1–2</td><td style="white-space:normal">Relevant ideas beyond directly applying definitions or standard theorems, but no core proof step completed</td></tr>
+<tr><td>3–7</td><td style="white-space:normal">Some substantive steps completed, with important gaps remaining</td></tr>
+<tr><td>8–9</td><td style="white-space:normal">Proof essentially complete; remaining local issues need no new core idea to repair</td></tr>
+<tr><td>10</td><td style="white-space:normal">Complete and correct under the task's conditions</td></tr>
+</tbody></table></div>
+
+<p>We define “essential completion” as a score of at least 8. Answers with a major logical gap receive at most 7, including proof plans and answers that treat an unproved core claim as a standard result. Within the 3–7 range, scores follow the weights assigned to core steps in the rubric.</p>
+
+<p>Partial credit follows two rules. The first concerns upstream errors. If an answer first proves A and then derives B from A, we check the proof of A and the A-to-B derivation separately. If A is valid under the task's conditions but its proof has a gap, that part loses credit while a correct downstream derivation can still earn points. If A is false or inapplicable, dependent derivations receive no credit. The second rule concerns alternative routes: valid routes different from the reference are scored by the goals they actually establish. A complete correct alternative proof can earn full credit.</p>
+
+<div class="case">
+  <div class="h">Scoring</div>
+  <p>The example rubric assigns 10 points across four core steps: bounding combinatorial density using the combinatorial dimension (3), proving that the dimension does not increase when generating full trajectories (4), deriving the sample complexity upper bound (2), and proving a matching lower bound (1). Combinatorial density is a quantity used in the proof to bound learning error. The first two steps account for 7 points and contain the main work needed for an upper bound without a trajectory-length factor.</p>
+</div>
+
+<p>For judgments about task validity, result selection, complexity, and scoring, we first manually reviewed model decisions and revised the prompts accordingly. We checked the revised criteria on ten new papers for broad agreement with human judgments before fixing them for the full dataset.</p>
+
+<h3 id="lean">3.2 Lean 4 Cross-Check</h3>
+
+<p>Manual calibration covers only a limited sample. The correctness of real papers and model answers is itself uncertain, making them unsuitable as a direct measure of review accuracy. We therefore built samples whose correctness and error locations are known. We start with formal proofs checked by the Lean kernel, confirming that the conclusions follow from the stated assumptions. We then plant errors in their natural-language versions, with known categories, locations, and reasons.</p>
+
+<p>We selected 20 theorems related to machine learning theory from two Lean projects, AI4SLT (<a class="citation" href="#ref-ai4slt-2026">Zhang, Lee &amp; Liu, 2026</a>) and <a class="citation" href="#ref-testing-lower-bounds">TestingLowerBounds</a>. We translated their statements and proofs into natural language and checked definitions, assumptions, quantifiers, and key derivations. Each task has five versions: a correct proof, three proofs each containing one substantive error, and a control with only a local typo. The substantive errors use the categories from Section 2.5: incomplete argument, invalid inference, and calculation error. Each model receives 100 anonymous submissions: 60 with substantive errors and 40 correct proofs or typo controls. The model does not know the version of each submission. Correct proofs test false positives; typo controls test whether harmless typos are mistaken for substantive errors.</p>
+
+<p>One task tests whether reviewers notice an incorrect order of parameter choices. It asks for approximation under Gaussian measure by smooth, compactly supported functions, controlling error in both function values and derivatives. The correct proof first fixes a sufficiently large truncation radius, then chooses a sufficiently small smoothing scale for that radius. The erroneous version varies both parameters together and applies convergence at a fixed radius to claim that the error still tends to zero, without showing that the result holds as the radius changes. We constructed a function satisfying the original assumptions whose error diverges along that parameter choice, confirming that the step is invalid.</p>
+
+<figure class="wide">
+  <img src="assets/figures/fig4_lean_judge.png" alt="Lean 4 cross-check results">
+  <figcaption><b>Figure 5.</b> Lean 4 cross-check. Left: substantive error detection and joint category/location/reason agreement use the 60 submissions with errors as their denominator. Overall verdict agreement and finding-level agreement use all 100 submissions (gray background). Right: detections out of 20 planted errors of each type.</figcaption>
+</figure>
+
+<p>We compared GPT-6 Astra, GLM-5.3, and DeepSeek-V4-Pro; the latter two had the lowest solving scores in the main experiment. They detected 60/60, 57/60, and 58/60 substantive errors, respectively, with no substantive false positives on the 20 correct proofs. They classified a typo as substantive in 1, 1, and 0 cases out of 20 typo controls. GPT-6, the main review model, detected all 60 planted errors. Of its 100 reports, 99 fully matched the recorded ground truth: error category, location, and reason where applicable, and the absence of substantive errors in correct proofs and typo controls.</p>
+
+<p>Under this strict standard, GLM and DeepSeek matched only 70/100 and 87/100 reports. Differences mainly came from misclassification and extra reports of nonexistent issues. For example, GLM repeatedly read ordinary letters after line breaks as different LaTeX symbols and reported notation errors. All three review models rarely missed substantive errors in this sample, but differed in identifying their categories and locations.</p>
+
+
+<h3 id="results-overall">3.3 Overall Results and PRC Groups</h3>
+
+<div class="table-scroll"><table>
+<thead><tr><th>Model</th><th class="n">Mean score (0–10)</th><th class="n">Essential completion (≥ 8)</th><th class="n">No final answer</th><th class="n">PRC4 essential completion</th></tr></thead>
+<tbody>
+<tr><td>GPT-6</td><td class="n">9.72</td><td class="n">95.0%</td><td class="n">0.2%</td><td class="n">122 / 144 (84.7%)</td></tr>
+<tr><td>GPT-5.6</td><td class="n">9.65</td><td class="n">94.5%</td><td class="n">0.1%</td><td class="n">110 / 144 (76.4%)</td></tr>
+<tr><td>Kimi</td><td class="n">7.87</td><td class="n">72.8%</td><td class="n">10.1%</td><td class="n">35 / 144 (24.3%)</td></tr>
+<tr><td>Claude Fable</td><td class="n">6.58</td><td class="n">59.3%</td><td class="n">21.7%</td><td class="n">13 / 144 (9.0%)</td></tr>
+<tr><td>Qwen</td><td class="n">6.33</td><td class="n">60.9%</td><td class="n">30.0%</td><td class="n">8 / 144 (5.6%)</td></tr>
+<tr><td>DeepSeek</td><td class="n">6.15</td><td class="n">60.2%</td><td class="n">32.8%</td><td class="n">5 / 144 (3.5%)</td></tr>
+<tr><td>GLM</td><td class="n">3.40</td><td class="n">34.7%</td><td class="n">62.3%</td><td class="n">1 / 144 (0.7%)</td></tr>
+</tbody></table></div>
+<p class="tcap">867 fixed tasks, with the same denominator for all seven models; no final answer scores 0.</p>
+
+<p>Both GPT models have overall means near the maximum and essential completion rates of about 95%. The other five models have overall means from 3.40 to 7.87. Grouping by PRC shows that differences are largest on high-complexity tasks. On PRC1, essential completion ranges from 82.6% to 99.4% except for GLM. On PRC4, GPT-6 and GPT-5.6 essentially complete 122 and 110 tasks, respectively, Kimi completes 35, and the remaining models complete 1–13.</p>
+
+<figure class="wide">
+  <img src="assets/figures/fig5_results_by_prc.png" alt="Model results by PRC level">
+  <figcaption><b>Figure 6.</b> Mean scores (left) and essential completion rates (right) by PRC level. Task counts appear below the horizontal axis.</figcaption>
+</figure>
+
+<p>GPT-6 has a slightly higher overall mean than GPT-5.6 (9.72 versus 9.65), mainly due to PRC4, where their means are 9.13 and 8.67.</p>
+
+<h3 id="results-noanswer">3.4 Answer Completion and Token Usage</h3>
+
+<p>We separately report the fraction of attempts that submit a final answer within budget and the fraction scoring at least 8. On PRC4, final-answer submission rates for Kimi, Claude Fable, Qwen, DeepSeek, and GLM are 62.5%, 37.5%, 18.1%, 9.0%, and 0.7%, respectively. Across all 6,069 attempts, 1,363 have no final answer. Only 10 submitted answers score 0.</p>
+
+<p>In provider-reported token breakdowns on PRC4, Qwen, DeepSeek, and GLM average about 46.8k, 47.1k, and 47.8k reasoning tokens, close to the requested 48k budget. Their non-reasoning outputs average only about 668, 255, and 78 tokens. These models use nearly the entire budget on reasoning and produce little final output. GPT-5.6 and GPT-6 average about 27.8k and 22.7k total tokens on PRC4, including about 18.7k and 15.2k reasoning tokens.</p>
+
+<p><em>GPT-5.6 and GPT-6 use noticeably fewer tokens, possibly due to a loop Transformer architecture (unverified).</em></p>
+
+<figure class="wide">
+  <img src="assets/figures/fig6_wall_tokens.png" alt="Answer completion and token usage">
+  <figcaption><b>Figure 7.</b> Left: final-answer submission rate by PRC. Center: outcomes on 144 PRC4 tasks, split into essential completion, submitted below 8 points, and no final answer; counts are calculated from reported rates. Right: mean reasoning tokens (light) and non-reasoning output tokens (dark) on PRC4. Breakdowns for Kimi and Claude are not shown.</figcaption>
+</figure>
+
+<p>The prompt states the token limit and permits partial proofs. Attempts without a final answer score 0 in all statistics. The 48k limit is the requested budget; a few providers report slightly higher actual usage. Results use the original outputs.</p>
+
+<h3 id="results-budget">3.5 Larger Output Budgets</h3>
+
+<p>How many more proofs can the non-GPT models complete with a larger budget? We ran a supplementary experiment on 30 PRC4 tasks selected from the 702 tasks completed by October 14. All five non-GPT models had failed to submit final answers on these tasks under the 48k budget. We kept the tasks and review process fixed and repeated solving with a 256k generation budget. Provider limits gave Claude 128k for 28 requests and 256k for 2. GPT-5.6 and GPT-6 retain their original answers and scores under 48k for these tasks.</p>
+
+<figure class="wide">
+  <img src="assets/figures/fig7_budget_extension.png" alt="Larger-budget experiment">
+  <figcaption><b>Figure 8.</b> Larger-budget experiment on 30 PRC4 tasks. Left: submitted answers and answers scoring at least 8; GPT rows left of the dashed line use the original 48k runs. Right: score distributions.</figcaption>
+</figure>
+
+<p>With larger budgets, DeepSeek, Kimi, and Qwen submitted answers on all 30 tasks. However, 21, 21, and 23 answers, respectively, scored 3–7, and only 1, 4, and 3 reached 8. DeepSeek used about 105.6k generation tokens on average. Claude submitted 20 answers, with 5 reaching 8. GLM requested 256k, but the provider truncated outputs at 131,072 tokens; it submitted only 1 answer. For comparison, GPT-6 essentially completed 21 of these tasks under 48k. Larger budgets increased submission rates, but most new answers still missed key proof steps. These 30 tasks were selected because all non-GPT models had failed to submit an answer.</p>
+
+<h3 id="results-case">3.6 Results on the Example Task</h3>
+
+<p>We return to the opening task to examine which proof steps each model completed.</p>
+
+<div class="table-scroll"><table>
+<thead><tr><th>Model</th><th class="n">Score</th><th class="n">Generation tokens</th><th>Answer summary</th></tr></thead>
+<tbody>
+<tr><td>GPT-6</td><td class="n">4</td><td class="n">30,718</td><td style="white-space:normal">Proved the lower bound and some local results; explicitly noted that the main upper bound remained unproved</td></tr>
+<tr><td>GPT-5.6</td><td class="n">3</td><td class="n">33,244</td><td style="white-space:normal">Submitted a proof whose main upper bound relied on the false claim that full-trajectory DS dimension does not increase</td></tr>
+<tr><td>Kimi</td><td class="n">2</td><td class="n">42,365</td><td style="white-space:normal">Submitted an answer without completing key proof steps</td></tr>
+<tr><td>Claude Fable, Qwen, DeepSeek, GLM</td><td class="n">0</td><td class="n">48,000</td><td style="white-space:normal">Budget exhausted; no final answer</td></tr>
+</tbody></table></div>
+
+<p>The main difficulty is to bound the samples needed to learn full trajectories using the complexity of local rules. The source proof introduces a combinatorial measure, parity dimension, uses it to bound combinatorial density, and then shows that this dimension does not increase when generating full trajectories. The latter step must turn constraints on full trajectories into constraints on local actions, preserving the constraints and ensuring that the relevant actions are still realized by one local rule. An induction outline alone does not complete these steps.</p>
+
+<p>GPT-6 scores 4: it proves the worst-case lower bound (1/1), shows in a special case that trajectory constraints can be converted to local-action constraints (2/4), and handles finite function classes and related cases (1/2). It does not prove the general combinatorial density bound (0/3) and explicitly states that the general upper bound remains unproved.</p>
+
+<p>GPT-5.6 scores 3. It directly assumes that the DS dimension of the full-trajectory class is no larger than that of the local rule class, then invokes multiclass learning theory for the upper bound. The source counterexample disproves this intermediate claim, so the dependent upper-bound derivation earns no credit. General multiclass learning results used elsewhere in the answer are checked separately.</p>
+
+<h2 id="conclusion">4. Conclusions and Future Work</h2>
+
+<div class="note chapter-summary">
+  <p><strong>High-complexity proofs still distinguish models in this evaluation. With larger generation budgets, most newly submitted answers complete only part of the proof.</strong> Review checks also need to measure error detection, classification, localization, and false positives.</p>
+</div>
+
+<h3 id="conclusion-obs">4.1 Main Findings</h3>
+
+<p>We constructed 885 checked proof tasks from recent machine learning theory papers, with scores from all seven models on 867 tasks. Source auditing also shows the need to verify published proofs: 57.2% of the 2,313 papers passing theoretical screening retained substantive error records.</p>
+
+<p>Model differences are largest on PRC4. The two GPT models reach essential completion rates of 76.4%–84.7%, compared with 0.7%–24.3% for the other five. On 30 selected tasks, larger budgets allowed DeepSeek, Kimi, and Qwen to submit every answer, but only 1–4 answers per model reached 8 points.</p>
+
+<p>In the Lean cross-check, the three review models detected 95%–100% of planted substantive errors and had no false positives on correct proofs. Complete report agreement with recorded errors ranged from 70%–99%, so classification and extra reported issues still need checking.</p>
+
+<h3 id="conclusion-next">4.2 Future Work</h3>
+
+<p>First, evaluate model answers to open problems. Current scoring depends on reference proofs and rubrics and therefore covers established results. Open problems require judging completeness without a reference answer. Review must rely more on checking the submitted proof itself and on more reliable verification methods.</p>
+
+<p>Second, expand the Lean theorem collection for cross-checking. We plan to formalize more theorems from recent papers and include errors collected from real papers. This would bring the check closer to actual review and better measure judgments of error category and location.</p>
+
+<p>Third, extend to other fields. The construction process can apply to mathematical fields with many new papers and human-written proofs, such as optimization, probability, and information theory. Evaluation can also extend from closed-book, single-attempt models to research agents that use tools and make multiple attempts. The same fixed tasks, reference proofs, and rubrics can support these evaluations.</p>
+
+<p>We will also manually review high-scoring answers and disputed core steps with model names hidden, and analyze weaker areas by research topic and problem type.</p>
+
+<hr>
+<h3 id="refs" style="margin-top:0">References</h3>
+<ol class="refs">
+  <li id="ref-openai-2026">OpenAI (2026, Oct 6). <a href="https://openai.com/index/sharing-ai-progress-in-mathematics/">Sharing AI progress in mathematics</a>.</li>
+  <li id="ref-li-2026">Li, Z. (2026). <a href="https://arxiv.org/abs/2607.07423">The Optimal Sample Complexity of Learning Autoregressive Chain-of-Thought</a>. arXiv:2607.07423.</li>
+  <li id="ref-valg-2026">Zhang, D., Tang, X., Yin, X., Chen, X., Qian, J., &amp; Zou, D. (2026). <a href="https://arxiv.org/abs/2608.13060">VALG: An Agentic System for ML Theory Research</a>. arXiv:2608.13060.</li>
+  <li id="ref-ai4slt-2026">Zhang, Y., Lee, J. D., &amp; Liu, F. (2026). <a href="https://arxiv.org/abs/2602.02285">AI4SLT: Empirical Processes in Lean 4 for Formal Statistical Learning Theory</a>. ICML 2026.</li>
+  <li id="ref-testing-lower-bounds">Degenne, R., and contributors. <a href="https://github.com/RemyDegenne/testing-lower-bounds">TestingLowerBounds</a> (Lean project).</li>
+  <li id="ref-webb">Webb Alignment Tool. <a href="https://www.webbalign.org/about/dok-explained">Depth of Knowledge Explained</a>.</li>
+  <li id="ref-timss-2023">Mullis, I. V. S., Martin, M. O., &amp; von Davier, M. (Eds.) (2021). <a href="https://timssandpirls.bc.edu/timss2023/frameworks/index.html">TIMSS 2023 Assessment Frameworks</a>.</li>
+  <li id="ref-pisa-2022">OECD (2023). <a href="https://www.oecd.org/en/publications/pisa-2022-assessment-and-analytical-framework_dfe0bf9c-en/full-report/component-3.html">PISA 2022 Mathematics Framework</a>.</li>
+  <li id="ref-selden">Selden, A., &amp; Selden, J. <a href="https://eric.ed.gov/?id=ED518588">Errors and Misconceptions in College Level Theorem Proving</a>. Technical Report 2003-3.</li>
+  <li id="ref-andersen-2020">Andersen, L. E. (2020). <a href="https://doi.org/10.1007/s11229-018-1778-8">Acceptable Gaps in Mathematical Proofs</a>. <i>Synthese</i>, 197, 233–247.</li>
+  <li id="ref-dalessandro-2025">D'Alessandro, W. (2025). <a href="https://doi.org/10.1017/epi.2023.54">Transferable and Fixable Proofs</a>. <i>Episteme</i>, 22(1), 271–282.</li>
+  <li id="ref-vapnik-1971">Vapnik, V. N., &amp; Chervonenkis, A. Y. (1971). <a href="https://doi.org/10.1137/1116025">On the uniform convergence of relative frequencies of events to their probabilities</a>. <i>Theory of Probability and Its Applications</i>, 16(2), 264–280.</li>
+  <li id="ref-shalev-shwartz-2014">Shalev-Shwartz, S., &amp; Ben-David, S. (2014). <i><a href="https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/">Understanding Machine Learning: From Theory to Algorithms</a></i>. Cambridge University Press.</li>
+  <li id="ref-mohri-2018">Mohri, M., Rostamizadeh, A., &amp; Talwalkar, A. (2018). <i><a href="https://cs.nyu.edu/~mohri/mlbook/">Foundations of Machine Learning</a></i> (2nd ed.). MIT Press.</li>
+  <li id="ref-lean4-2021">de Moura, L., &amp; Ullrich, S. (2021). <a href="https://doi.org/10.1007/978-3-030-79876-5_37">The Lean 4 theorem prover and its use in theorem proving</a>. In <i>CADE 28</i>, Lecture Notes in Computer Science, 152–170.</li>
+  <li id="ref-mathematics-in-lean">Avigad, J., de Moura, L., &amp; Kong, S. <a href="https://leanprover-community.github.io/mathematics_in_lean/">Mathematics in Lean</a>. Lean community documentation.</li>
+</ol>
+</main>
+<aside></aside>
+</div>
+
+<footer>© 2026 MLtheorybench</footer>
+
+<script>
+(function () {
+  function syncLanguageLinks() {
+    document.querySelectorAll('.language-switch a').forEach(function (a) {
+      a.hash = window.location.hash;
+    });
+  }
+  syncLanguageLinks();
+  window.addEventListener('hashchange', syncLanguageLinks);
+  var list = document.querySelector('#toc ol');
+  var hs = Array.prototype.filter.call(document.querySelectorAll('main h2[id], main h3[id]'), function (h) { return h.id !== 'refs'; });
+  hs.forEach(function (h) {
+    var li = document.createElement('li');
+    if (h.tagName === 'H3') li.className = 'sub';
+    var a = document.createElement('a');
+    a.href = '#' + h.id; a.textContent = h.textContent;
+    li.appendChild(a); list.appendChild(li);
+  });
+  var links = list.querySelectorAll('a');
+  function onScroll() {
+    var cur = 0;
+    hs.forEach(function (h, i) { if (h.getBoundingClientRect().top < 120) cur = i; });
+    links.forEach(function (a, i) { a.classList.toggle('active', i === cur); });
+  }
+  document.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  window.addEventListener('beforeprint', function () {
+    document.querySelectorAll('details').forEach(function (d) { d.open = true; });
+  });
+})();
+</script>
+</body>
+</html>

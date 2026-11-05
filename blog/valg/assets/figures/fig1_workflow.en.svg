@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 700" role="img"><title>VALG workflow</title>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#6b7a86"/></marker></defs>
+<rect width="1060" height="700" fill="#fff"/><g font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" fill="#22384d">
+<text x="10" y="28" font-size="21" font-weight="700" fill="#285b91">Workflow 1 · Narrow a direction to a theorem contract</text>
+<rect x="12" y="48" width="158" height="84" rx="9" fill="#f3f7fb" stroke="#4f78a3" stroke-width="2"/><text x="91.0" y="83" font-size="17.5" font-weight="700" text-anchor="middle">Input</text><text x="91.0" y="110" font-size="14" fill="#55657a" text-anchor="middle">direction, problem</text>
+<rect x="188" y="48" width="158" height="84" rx="9" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="267.0" y="83" font-size="17.5" font-weight="700" text-anchor="middle">01 Literature</text><text x="267.0" y="110" font-size="14" fill="#55657a" text-anchor="middle">settings, results, gaps</text>
+<rect x="364" y="48" width="158" height="84" rx="9" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="443.0" y="83" font-size="17.5" font-weight="700" text-anchor="middle">02 Perspectives</text><text x="443.0" y="110" font-size="14" fill="#55657a" text-anchor="middle">≤ 3, distinct</text>
+<rect x="540" y="48" width="158" height="84" rx="9" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="619.0" y="83" font-size="17.5" font-weight="700" text-anchor="middle">03 Ideas</text><text x="619.0" y="110" font-size="14" fill="#55657a" text-anchor="middle">mechanism, support</text>
+<rect x="716" y="48" width="158" height="84" rx="9" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="795.0" y="83" font-size="17.5" font-weight="700" text-anchor="middle">04 Formalize</text><text x="795.0" y="110" font-size="14" fill="#55657a" text-anchor="middle">objects, one goal</text>
+<rect x="892" y="48" width="158" height="84" rx="9" fill="#f3f7fb" stroke="#4f78a3" stroke-width="2" stroke-dasharray="7 5"/><text x="971.0" y="83" font-size="17.5" font-weight="700" text-anchor="middle">Contract</text><text x="971.0" y="110" font-size="14" fill="#55657a" text-anchor="middle">fixed for proving</text>
+<path d="M170 90.0H182" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M346 90.0H358" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<text x="355.0" y="80.0" font-size="15" fill="#285b91" text-anchor="middle">✓</text>
+<path d="M522 90.0H534" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<text x="531.0" y="80.0" font-size="15" fill="#285b91" text-anchor="middle">✓</text>
+<path d="M698 90.0H710" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<text x="707.0" y="80.0" font-size="15" fill="#285b91" text-anchor="middle">✓</text>
+<path d="M874 90.0H886" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<text x="883.0" y="80.0" font-size="15" fill="#285b91" text-anchor="middle">✓</text>
+<path d="M971.0 132V168H110V206" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<text x="170" y="196" font-size="21" font-weight="700" fill="#285b91">Workflow 2 · Staged proof and checking for every branch</text>
+<rect x="20" y="214" width="220" height="84" rx="9" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="130.0" y="249" font-size="19" font-weight="700" text-anchor="middle">01 Proof sketch</text><text x="130.0" y="276" font-size="15.5" fill="#55657a" text-anchor="middle">typed dependency DAG</text>
+<rect x="280" y="214" width="220" height="84" rx="9" fill="#fcf6ee" stroke="#c58a3c" stroke-width="2"/><text x="390.0" y="249" font-size="19" font-weight="700" text-anchor="middle">02 Sketch check</text><text x="390.0" y="276" font-size="15.5" fill="#55657a" text-anchor="middle">is the route viable?</text>
+<rect x="280" y="306" width="220" height="28" rx="5" fill="#fbf3f0" stroke="#d9a593"/><text x="390.0" y="325" font-size="14" font-weight="700" fill="#9b3f28" text-anchor="middle">return to: sketch / idea</text>
+<rect x="540" y="214" width="220" height="84" rx="9" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="650.0" y="249" font-size="19" font-weight="700" text-anchor="middle">03 Global diagnostic</text><text x="650.0" y="276" font-size="15.5" fill="#55657a" text-anchor="middle">does it compose?</text>
+<rect x="800" y="214" width="220" height="84" rx="9" fill="#fcf6ee" stroke="#c58a3c" stroke-width="2"/><text x="910.0" y="249" font-size="19" font-weight="700" text-anchor="middle">04 Global check</text><text x="910.0" y="276" font-size="15.5" fill="#55657a" text-anchor="middle">viability, obstacles</text>
+<rect x="800" y="306" width="220" height="28" rx="5" fill="#fbf3f0" stroke="#d9a593"/><text x="910.0" y="325" font-size="14" font-weight="700" fill="#9b3f28" text-anchor="middle">return to: global / sketch / idea</text>
+<rect x="800" y="372" width="220" height="84" rx="9" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="910.0" y="407" font-size="19" font-weight="700" text-anchor="middle">05 Step proofs</text><text x="910.0" y="434" font-size="15.5" fill="#55657a" text-anchor="middle">in dependency order</text>
+<rect x="540" y="372" width="220" height="84" rx="9" fill="#fcf6ee" stroke="#c58a3c" stroke-width="2"/><text x="650.0" y="407" font-size="19" font-weight="700" text-anchor="middle">06 Step checks</text><text x="650.0" y="434" font-size="15.5" fill="#55657a" text-anchor="middle">each step separately</text>
+<rect x="540" y="464" width="220" height="28" rx="5" fill="#fbf3f0" stroke="#d9a593"/><text x="650.0" y="483" font-size="14" font-weight="700" fill="#9b3f28" text-anchor="middle">return to: step / dep. / sketch</text>
+<rect x="280" y="372" width="220" height="84" rx="9" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="390.0" y="407" font-size="19" font-weight="700" text-anchor="middle">07 Assembly</text><text x="390.0" y="434" font-size="15.5" fill="#55657a" text-anchor="middle">full manuscript</text>
+<rect x="20" y="372" width="220" height="84" rx="9" fill="#fcf6ee" stroke="#c58a3c" stroke-width="2"/><text x="130.0" y="407" font-size="19" font-weight="700" text-anchor="middle">08 Final checks</text><text x="130.0" y="434" font-size="15.5" fill="#55657a" text-anchor="middle">struct. · rigor · cite · counterex.</text>
+<rect x="20" y="530" width="220" height="84" rx="9" fill="#fcf6ee" stroke="#c58a3c" stroke-width="2"/><text x="130.0" y="565" font-size="19" font-weight="700" text-anchor="middle">09 Combined verdict</text><text x="130.0" y="592" font-size="15.5" fill="#55657a" text-anchor="middle">merges the four</text>
+<rect x="20" y="622" width="250" height="28" rx="5" fill="#fbf3f0" stroke="#d9a593"/><text x="145.0" y="641" font-size="14" font-weight="700" fill="#9b3f28" text-anchor="middle">return: assembly / step / sketch / idea</text>
+<rect x="280" y="530" width="220" height="84" rx="9" fill="#eef7f0" stroke="#2e7d4f" stroke-width="2"/><text x="390.0" y="565" font-size="19" font-weight="700" text-anchor="middle">10 Accept</text><text x="390.0" y="592" font-size="15.5" fill="#55657a" text-anchor="middle">score ≥ 7, no open issues</text>
+<path d="M240 256.0H274" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M500 256.0H534" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M760 256.0H794" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M1020 256.0H1044V414.0H1024" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M800 414.0H766" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M540 414.0H506" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M280 414.0H246" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M130.0 456V524" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<path d="M240 572.0H274" fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"/>
+<rect x="560" y="548" width="18" height="18" rx="4" fill="#f2f8f7" stroke="#3d8a7e" stroke-width="2"/><text x="586" y="563" font-size="15.5">produce</text>
+<rect x="670" y="548" width="18" height="18" rx="4" fill="#fcf6ee" stroke="#c58a3c" stroke-width="2"/><text x="696" y="563" font-size="15.5">check</text>
+<rect x="780" y="548" width="18" height="18" rx="4" fill="#eef7f0" stroke="#2e7d4f" stroke-width="2"/><text x="806" y="563" font-size="15.5">accept</text>
+<text x="560" y="594" font-size="15.5" fill="#285b91">✓ researcher may review this stage</text>
+<text x="560" y="624" font-size="15.5" fill="#9b3f28">A failed check returns to the stages in red (Fig. 3)</text>
+</g></svg>

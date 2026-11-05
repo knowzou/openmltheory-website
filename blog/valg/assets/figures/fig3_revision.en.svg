@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 420" role="img" aria-labelledby="t d">
+<title id="t">Layered revision</title>
+<desc id="d">An independent check locates the smallest object in error, the lowest layer able to correct it is revised locally, and the revision must pass a new check before the next stage; if errors remain, the layer is chosen again.</desc>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#6b7a86"/></marker><marker id="r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#b9533a"/></marker><marker id="g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#3d8a6e"/></marker></defs>
+<rect width="1100" height="420" fill="#fff"/>
+<g font-family="-apple-system,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif" fill="#22384d">
+<g stroke-width="2"><rect x="30" y="40" width="210" height="96" rx="8" fill="#f2f8f7" stroke="#3d8a7e"/><rect x="300" y="40" width="210" height="96" rx="8" fill="#fcf6ee" stroke="#c58a3c"/><rect x="570" y="40" width="210" height="96" rx="8" fill="#f3f7fb" stroke="#4f78a3"/><rect x="840" y="40" width="230" height="96" rx="8" fill="#f2f8f7" stroke="#3d8a7e"/><rect x="840" y="196" width="230" height="96" rx="8" fill="#fcf6ee" stroke="#c58a3c"/><rect x="840" y="344" width="230" height="52" rx="8" fill="#f2f8f4" stroke="#3d8a6e"/></g>
+<g font-size="16" font-weight="700"><text x="48" y="72">1 · Produce</text><text x="318" y="72">2 · Independent check</text><text x="588" y="72">3 · Choose the layer</text><text x="858" y="72">4 · Local revision</text><text x="858" y="228">5 · Re-check</text><text x="858" y="376" fill="#2e6f57">Passed → next stage</text></g>
+<g font-size="13.5" fill="#55657a"><text x="48" y="98">Complete the stage from</text><text x="48" y="118">previously accepted results</text><text x="318" y="98">Locate the smallest</text><text x="318" y="118">object that is wrong</text><text x="588" y="98">Pick the lowest layer</text><text x="588" y="118">that can fix the error</text><text x="858" y="98">Change only the part</text><text x="858" y="118">that was flagged</text><text x="858" y="254">By a new checker</text><text x="858" y="274">or the researcher</text></g>
+<g fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"><path d="M240 88H292"/><path d="M510 88H562"/><path d="M780 88H832"/><path d="M955 136V188"/></g>
+<path d="M955 292V336" fill="none" stroke="#3d8a6e" stroke-width="2" marker-end="url(#g)"/>
+<path d="M840 244H675V144" fill="none" stroke="#b9533a" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#r)"/>
+<text x="690" y="236" font-size="15" fill="#9b3f28">still wrong: to 3</text>
+<rect x="30" y="180" width="600" height="216" rx="8" fill="#fbf6f4" stroke="#d9a593" stroke-width="1.5"/>
+<text x="48" y="208" font-size="16" font-weight="700" fill="#9b3f28">Revision layers, from lowest to highest</text>
+<g stroke="#e2bfb2" stroke-width="1.5" fill="#fff"><rect x="48" y="222" width="180" height="52" rx="6"/><rect x="240" y="222" width="180" height="52" rx="6"/><rect x="432" y="222" width="180" height="52" rx="6"/><rect x="48" y="284" width="180" height="52" rx="6"/><rect x="240" y="284" width="180" height="52" rx="6"/></g>
+<g font-size="15.5"><text x="60" y="244" font-weight="700">Assembly flaw</text><text x="60" y="264" fill="#55657a">→ reassemble (07)</text>
+<text x="252" y="244" font-weight="700">Step / dependency</text><text x="252" y="264" fill="#55657a">→ re-prove step (05)</text>
+<text x="444" y="244" font-weight="700">Composition</text><text x="444" y="264" fill="#55657a">→ redo diagnostic (03)</text>
+<text x="60" y="306" font-weight="700">Graph / interface</text><text x="60" y="326" fill="#55657a">→ rewrite sketch (01)</text>
+<text x="252" y="306" font-weight="700" fill="#9b3f28">Contract fails</text><text x="252" y="326" fill="#55657a">→ new idea + contract</text></g>
+<text x="48" y="370" font-size="15" fill="#55657a"><tspan font-weight="700" fill="#22384d">Repeated failure moves up:</tspan> step → sketch → new idea → abandon branch</text>
+</g></svg>

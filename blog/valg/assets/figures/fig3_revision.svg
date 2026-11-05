@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 420" role="img" aria-labelledby="t d">
+<title id="t">分层修改</title>
+<desc id="d">独立审查指出错误所在的最小对象，系统选择能修正该错误的最低层级进行局部修改，修改结果经重新审查通过后进入下一阶段；仍有错误时重新确定修改层级。</desc>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#6b7a86"/></marker><marker id="r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#b9533a"/></marker><marker id="g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#3d8a6e"/></marker></defs>
+<rect width="1100" height="420" fill="#fff"/>
+<g font-family="-apple-system,'PingFang SC','Hiragino Sans GB','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif" fill="#22384d">
+<g stroke-width="2"><rect x="30" y="40" width="210" height="96" rx="8" fill="#f2f8f7" stroke="#3d8a7e"/><rect x="300" y="40" width="210" height="96" rx="8" fill="#fcf6ee" stroke="#c58a3c"/><rect x="570" y="40" width="210" height="96" rx="8" fill="#f3f7fb" stroke="#4f78a3"/><rect x="840" y="40" width="230" height="96" rx="8" fill="#f2f8f7" stroke="#3d8a7e"/><rect x="840" y="196" width="230" height="96" rx="8" fill="#fcf6ee" stroke="#c58a3c"/><rect x="840" y="344" width="230" height="52" rx="8" fill="#f2f8f4" stroke="#3d8a6e"/></g>
+<g font-size="18" font-weight="700"><text x="48" y="72">1 · 生成结果</text><text x="318" y="72">2 · 独立审查</text><text x="588" y="72">3 · 确定修改层级</text><text x="858" y="72">4 · 局部修改</text><text x="858" y="228">5 · 重新审查</text><text x="858" y="376" fill="#2e6f57">通过 → 进入下一阶段</text></g>
+<g font-size="15" fill="#55657a"><text x="48" y="98">依据已通过审查的</text><text x="48" y="118">结果完成本阶段</text><text x="318" y="98">指出错误所在的</text><text x="318" y="118">最小数学对象</text><text x="588" y="98">选择能修正该错误的</text><text x="588" y="118">最低层级</text><text x="858" y="98">只修改被指出的部分</text><text x="858" y="118"></text><text x="858" y="254">由新的审查者</text><text x="858" y="274">或研究者检查</text></g>
+<g fill="none" stroke="#6b7a86" stroke-width="2" marker-end="url(#a)"><path d="M240 88H292"/><path d="M510 88H562"/><path d="M780 88H832"/><path d="M955 136V188"/></g>
+<path d="M955 292V336" fill="none" stroke="#3d8a6e" stroke-width="2" marker-end="url(#g)"/>
+<path d="M840 244H675V144" fill="none" stroke="#b9533a" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#r)"/>
+<text x="690" y="236" font-size="15" fill="#9b3f28">仍有错误：回到 3</text>
+<rect x="30" y="180" width="600" height="216" rx="8" fill="#fbf6f4" stroke="#d9a593" stroke-width="1.5"/>
+<text x="48" y="208" font-size="16" font-weight="700" fill="#9b3f28">修改层级（由低到高）</text>
+<g stroke="#e2bfb2" stroke-width="1.5" fill="#fff"><rect x="48" y="222" width="180" height="52" rx="6"/><rect x="240" y="222" width="180" height="52" rx="6"/><rect x="432" y="222" width="180" height="52" rx="6"/><rect x="48" y="284" width="180" height="52" rx="6"/><rect x="240" y="284" width="180" height="52" rx="6"/></g>
+<g font-size="15.5"><text x="60" y="244" font-weight="700">装配错误</text><text x="60" y="264" fill="#55657a">→ 重新装配（07）</text>
+<text x="252" y="244" font-weight="700">局部步骤 / 依赖</text><text x="252" y="264" fill="#55657a">→ 重证该步（05）</text>
+<text x="444" y="244" font-weight="700">整体组合</text><text x="444" y="264" fill="#55657a">→ 重做全局诊断（03）</text>
+<text x="60" y="306" font-weight="700">依赖图 / 接口</text><text x="60" y="326" fill="#55657a">→ 重写草图（01）</text>
+<text x="252" y="306" font-weight="700" fill="#9b3f28">定理契约不成立</text><text x="252" y="326" fill="#55657a">→ 新 idea 与新契约</text></g>
+<text x="48" y="370" font-size="15" fill="#55657a"><tspan font-weight="700" fill="#22384d">多次修改未通过时上升一层：</tspan>步骤 → 草图 → 新 idea → 放弃分支</text>
+</g></svg>
