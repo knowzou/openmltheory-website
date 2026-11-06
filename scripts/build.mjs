@@ -24,7 +24,7 @@ for (const filename of ['index.html', 'index.en.html']) {
   html = html.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
   html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, articleControls);
   html = html.replace(/<div class="topbar"><b>MLtheorybench<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>MLtheorybench</b>`);
-  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
+  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/?view=list" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'MLtheorybench';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
   if (!body) throw new Error(`Missing body in ${filename}`);
@@ -63,7 +63,7 @@ for (const filename of ['index.html', 'index.en.html']) {
   html = html.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
   html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, articleControls);
   html = html.replace(/<div class="topbar"><b>[^<]+<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>VALG</b>`);
-  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
+  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/?view=list" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'VALG';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
   if (!body) throw new Error(`Missing body in ${filename}`);
@@ -93,9 +93,9 @@ await writeFile(resolve(output, '_redirects'), [
   '/blog/MLtheorybench/ /blog/MLtheorybench 301',
   '/blog/MLtheorybench/index.html /blog/MLtheorybench 301',
   '/blog/MLtheorybench/index.en.html /blog/MLtheorybench 301',
-  '/blog /blog/ 301',
-  '/blog/index.html /blog/ 301',
-  '/blog/index.en.html /blog/ 301',
+  '/blog /blog/ 302',
+  '/blog/index.html /blog/ 302',
+  '/blog/index.en.html /blog/ 302',
   '/blog/valg/ /blog/valg 301',
   '/blog/valg/index.html /blog/valg 301',
   '/blog/valg/index.en.html /blog/valg 301'
