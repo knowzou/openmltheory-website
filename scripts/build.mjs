@@ -102,9 +102,9 @@ for (const filename of ['index.html', 'index.en.html']) {
   }
   const chinese = filename === 'index.html';
   html = html.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
-  html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, `<button class="language-toggle" type="button" aria-label="${chinese ? 'Switch to English' : '切换到中文'}">${chinese ? 'English' : '中文'}</button>`);
+  html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, articleControls);
   html = html.replace(/<div class="topbar"><b>Rethinking Weight Decay<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>Rethinking Weight Decay</b>`);
-  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
+  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/?view=list" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'Rethinking Weight Decay';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
   if (!body) throw new Error(`Missing article body in ${filename}`);
@@ -123,7 +123,7 @@ const rethinkingHead = await readFile(resolve(rethinkingSource, 'index.en.html')
 const rethinkingHeadContent = rethinkingHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
   ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
 if (!rethinkingHeadContent) throw new Error('Missing Rethinking Weight Decay head');
-const rethinkingCombined = `<!doctype html><html lang="en"><head>${rethinkingHeadContent}</head><body><div id="article"></div>${rethinkingTemplate('en', rethinkingArticles.en)}${rethinkingTemplate('zh', rethinkingArticles.zh)}<script src="/article.js" defer></script></body></html>`;
+const rethinkingCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script>${rethinkingHeadContent}<link rel="stylesheet" href="/article-theme.css?v=20261107-1"></head><body class="weight-decay-article"><div id="article"></div>${rethinkingTemplate('en', rethinkingArticles.en)}${rethinkingTemplate('zh', rethinkingArticles.zh)}<script src="/article.js?v=20261106-1" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'rethinking-weight-decay'), rethinkingCombined);
 await writeFile(resolve(output, '_redirects'), [
   '/blog/MLtheorybench/ /blog/MLtheorybench 301',

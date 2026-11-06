@@ -28,3 +28,12 @@ html[data-theme="dark"] .bar-track{background:#3d3e3e}
 html[data-theme="dark"] figure.flowchart{background:#28292a;border-color:#3d3d3b;box-shadow:none}
 html[data-theme="dark"] figure.flowchart img,html[data-theme="dark"] figure img{background:#fff}
 @media print{html[data-theme="dark"]{color-scheme:light;background:#fff;--text:rgba(0,0,0,.85);--muted:rgba(0,0,0,.6);--border:rgba(0,0,0,.1);--surface:#f9f9f9;--primary:#ec956a}html[data-theme="dark"] body{background:#fff}}
+
+@media(max-width:600px){
+  .weight-decay-article .topbar{grid-template-columns:minmax(0,1fr) auto}
+  .weight-decay-article .topbar .home-link{grid-column:1;grid-row:1}
+  .weight-decay-article .topbar-actions{grid-column:2;grid-row:1}
+  .weight-decay-article .topbar>b{position:static;grid-column:1/-1;grid-row:2;transform:none;max-width:none;text-align:left}
+  .weight-decay-article main .katex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;vertical-align:middle}
+  .weight-decay-article .references{overflow-wrap:anywhere}
+}
