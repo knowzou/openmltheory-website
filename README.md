@@ -13,6 +13,7 @@ This repository is the source for **[openmltheory.com](https://openmltheory.com/
 | About us | [/about/](https://openmltheory.com/about/) | [`public/about/index.html`](public/about/index.html) |
 | MLtheorybench | [/blog/MLtheorybench](https://openmltheory.com/blog/MLtheorybench) | [`blog/MLtheorybench/`](blog/MLtheorybench/) |
 | VALG | [/blog/valg](https://openmltheory.com/blog/valg) | [`blog/valg/`](blog/valg/) |
+| Rethinking Weight Decay | [/blog/rethinking-weight-decay](https://openmltheory.com/blog/rethinking-weight-decay) | [`blog/rethinking-weight-decay/`](blog/rethinking-weight-decay/) |
 
 ## Local development
 
@@ -30,15 +31,18 @@ The preview is served at `http://127.0.0.1:4173`. Set `PORT` to use another port
 
 ```text
 public/                  Home, Blog index, About page, shared CSS and JavaScript
+public/katex/             Static KaTeX CSS and fonts used by the research articles
 blog/MLtheorybench/      Chinese and English article sources and figures
 blog/valg/              Chinese and English article sources and figures
+blog/rethinking-weight-decay/
+                         Chinese and English article sources and figures
 scripts/build.mjs        Builds the publishable site in dist/
 scripts/serve.mjs        Serves dist/ for local preview
 .github/workflows/       GitHub Actions deployment workflow
 wrangler.toml            Cloudflare Pages project configuration
 ```
 
-The build copies `public/`, generates the two article routes, and copies assets referenced by the articles. It also generates redirects and response headers. `dist/` and `node_modules/` are local output and are not committed.
+The build copies `public/`, generates the article routes, and copies assets referenced by the articles. It also generates redirects and response headers. `dist/` and `node_modules/` are local output and are not committed.
 
 ## Editing content
 

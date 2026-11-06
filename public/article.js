@@ -29,10 +29,14 @@ function render(next) {
   });
   if (scrollHandler) document.removeEventListener('scroll', scrollHandler);
   const links = [...toc.querySelectorAll('a')];
+  let activeIndex = -1;
   scrollHandler = () => {
     let current = 0;
     headings.forEach((heading, index) => { if (heading.getBoundingClientRect().top < 120) current = index; });
+    if (current === activeIndex) return;
+    activeIndex = current;
     links.forEach((link, index) => link.classList.toggle('active', index === current));
+    links[current]?.scrollIntoView({ block: 'nearest' });
   };
   document.addEventListener('scroll', scrollHandler, { passive: true });
   scrollHandler();

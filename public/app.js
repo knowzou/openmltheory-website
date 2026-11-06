@@ -6,11 +6,12 @@ const translations = {
     exploreResearch: 'Explore our research', discoverApproach: 'Discover our approach', researchScope: 'OUR RESEARCH LENS',
     field1: 'Learning theory', field2: 'Optimization', field3: 'Mathematical reasoning', field4: 'AI for science',
     featuredEyebrow: 'OUR RESEARCH', featuredTitle: 'Latest posts', featuredIndex: '02 / PUBLICATIONS',
-    systemTag: 'AGENTIC SYSTEM', benchmarkTag: 'BENCHMARK', valgDate: 'August 13, 2026', reportDate: 'October 26, 2026', postTitle: 'MLtheorybench: Evaluating Proofs in Machine Learning Theory',
+    systemTag: 'AGENTIC SYSTEM', benchmarkTag: 'BENCHMARK', weightDecayTag: 'WEIGHT DECAY', valgDate: 'August 13, 2026', reportDate: 'October 26, 2026', weightDecayDate: 'October 11, 2026', postTitle: 'MLtheorybench: Evaluating Proofs in Machine Learning Theory',
     postDescription: 'What does it take for an AI model to complete a research proof? We study 885 proof tasks from recent machine learning theory papers and compare seven models.',
     by: 'BY', paperLabel: 'Paper:', repositoryLabel: 'Repository:', readFullReport: 'Read the full report', reportPoint1: 'From papers to proof tasks', reportPoint1Body: 'A fixed task set built from recent research.',
     reportPoint2: 'Looking inside the reasoning', reportPoint2Body: 'Four levels of proof reconstruction complexity.', reportPoint3: 'Checking the checks', reportPoint3Body: 'A Lean 4 cross-check of proof judgments.',
     valgTitle: 'VALG: An Agentic System for ML Theory Research', valgDescription: 'A research system that develops theorem statements and proofs while keeping every result tied to its source question.',
+    weightDecayTitle: 'Rethinking Weight Decay: From Scalar Shrinkage to Spectral Dynamics', weightDecayDescription: 'An examination of weight decay as a spectral design choice, from exact linear theory to Transformer experiments.',
     approachEyebrow: 'THE WAY WE WORK', approachTitle: 'Good theory starts<br>with <em>better questions.</em>',
     approachDescription: 'We are interested in the full path from a precise question to a trustworthy mathematical result. That means looking beyond final answers to the assumptions, arguments, and evidence behind them.',
     approach1: 'Ask precisely.', approach1Body: 'Make the setting, assumptions, and goal explicit. A question becomes useful when we can say exactly what a solution would establish.',
@@ -28,11 +29,12 @@ const translations = {
     exploreResearch: '浏览研究内容', discoverApproach: '了解研究理念', researchScope: '我们的研究视角',
     field1: '学习理论', field2: '最优化', field3: '数学推理', field4: 'AI 驱动科学发现',
     featuredEyebrow: '我们的研究', featuredTitle: '最新文章', featuredIndex: '02 / 研究文章',
-    systemTag: 'AGENT 系统', benchmarkTag: '评测基准', valgDate: '2026 年 8 月 13 日', reportDate: '2026 年 10 月 26 日', postTitle: 'MLtheorybench：机器学习理论证明评测',
+    systemTag: 'AGENT 系统', benchmarkTag: '评测基准', weightDecayTag: 'WEIGHT DECAY', valgDate: '2026 年 8 月 13 日', reportDate: '2026 年 10 月 26 日', weightDecayDate: '2026 年 10 月 11 日', postTitle: 'MLtheorybench：机器学习理论证明评测',
     postDescription: 'AI 模型距离完成一份研究级证明还有多远？我们从近期机器学习理论论文中构建了 885 道证明任务，并比较七个模型的表现。',
     by: '作者', paperLabel: '论文：', repositoryLabel: '代码仓库：', readFullReport: '阅读全文', reportPoint1: '从论文到证明任务', reportPoint1Body: '从近期研究中构建固定的评测任务集。',
     reportPoint2: '深入推理过程', reportPoint2Body: '以四级证明重建复杂度分析模型表现。', reportPoint3: '检验评审本身', reportPoint3Body: '借助 Lean 4 交叉检查证明判断。',
     valgTitle: 'VALG：面向机器学习理论研究的 Agent 系统', valgDescription: '一套形成定理陈述、构造证明，并让每个结果始终对应来源问题的研究系统。',
+    weightDecayTitle: '重新思考 Weight Decay：从标量收缩到谱动力学', weightDecayDescription: '把 weight decay 作为谱设计变量来考察：从精确线性理论到 Transformer 对照实验。',
     approachEyebrow: '研究理念', approachTitle: '好的理论，始于<br><em>更准确的提问。</em>',
     approachDescription: '我们关注从精确的问题到可信数学结果的完整过程。这意味着不只看最终答案，也审视背后的假设、论证与证据。',
     approach1: '精确定义问题。', approach1Body: '明确研究背景、假设和目标。当我们能准确说出一个解答究竟证明了什么，问题才有了研究的起点。',
@@ -109,12 +111,15 @@ function setLanguage(next) {
   const article = '/blog/MLtheorybench';
   document.querySelectorAll('[data-blog]').forEach(el => { el.href = article; });
   document.querySelectorAll('[data-valg]').forEach(el => { el.href = '/blog/valg'; });
+  const weightDecayArticle = '/blog/rethinking-weight-decay';
+  document.querySelectorAll('[data-weight-decay]').forEach(el => { el.href = weightDecayArticle; });
   document.querySelectorAll('[data-blog-anchor]').forEach(el => { el.href = article + '#' + el.dataset.blogAnchor; });
   document.querySelectorAll('[data-src-en]').forEach(image => {
     image.src = next === 'zh' ? image.dataset.srcZh : image.dataset.srcEn;
   });
   document.querySelector('.research-card-bench .research-cover')?.setAttribute('aria-label', next === 'zh' ? '阅读 MLtheorybench：机器学习理论证明评测' : 'Read MLtheorybench: Evaluating Proofs in Machine Learning Theory');
   document.querySelector('.research-card-valg .research-cover')?.setAttribute('aria-label', next === 'zh' ? '阅读 VALG：面向机器学习理论研究的 Agent 系统' : 'Read VALG: An Agentic System for ML Theory Research');
+  document.querySelector('.research-card-weight-decay .research-cover')?.setAttribute('aria-label', next === 'zh' ? '阅读重新思考 Weight Decay：从标量收缩到谱动力学' : 'Read Rethinking Weight Decay: From Scalar Shrinkage to Spectral Dynamics');
   languageButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.setLanguage === next)));
   window.openmltheoryTheme?.refresh();
   try { localStorage.setItem('openmltheory-language', next); } catch {}

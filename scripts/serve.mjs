@@ -8,10 +8,12 @@ const port = Number(process.env.PORT || 4173);
 createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://localhost');
-    let file = resolve(root, '.' + decodeURIComponent(url.pathname));
+    const pathname = decodeURIComponent(url.pathname);
+    const normalizedPathname = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
+    let file = resolve(root, '.' + normalizedPathname);
     if (file !== root && !file.startsWith(root + '/')) { res.writeHead(403); res.end(); return; }
     if ((await stat(file)).isDirectory()) file = resolve(file, 'index.html');
-    const articleRoute = ['/blog/MLtheorybench', '/blog/valg'].includes(url.pathname);
+    const articleRoute = ['/blog/MLtheorybench', '/blog/valg', '/blog/rethinking-weight-decay'].includes(normalizedPathname);
     res.setHeader('Content-Type', articleRoute ? types['.html'] : types[extname(file)] || 'application/octet-stream');
     res.end(await readFile(file));
   } catch {

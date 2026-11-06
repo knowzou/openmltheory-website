@@ -89,6 +89,42 @@ const valgHeadContent = valgHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
 if (!valgHeadContent) throw new Error('Missing VALG article head');
 const valgCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="VALG: an agentic workflow for developing ML theory research with explicit theorem scope and proof review.">${valgHeadContent}<link rel="stylesheet" href="/article-theme.css?v=20261106-2"></head><body><div id="article"></div>${valgTemplate('en', valgArticles.en)}${valgTemplate('zh', valgArticles.zh)}<script src="/article.js?v=20261106-1" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'valg'), valgCombined);
+const rethinkingSource = resolve(blogRoot, 'rethinking-weight-decay');
+const rethinkingAssets = new Set();
+const rethinkingArticles = {};
+for (const filename of ['index.html', 'index.en.html']) {
+  let html = await readFile(resolve(rethinkingSource, filename), 'utf8');
+  for (const match of html.matchAll(/(?:src|href)=["']([^"'#]+)["']/g)) {
+    const asset = match[1];
+    if (asset.startsWith('/blog/assets/rethinking-weight-decay/')) {
+      rethinkingAssets.add(asset.replace('/blog/assets/rethinking-weight-decay/', ''));
+    }
+  }
+  const chinese = filename === 'index.html';
+  html = html.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
+  html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, `<button class="language-toggle" type="button" aria-label="${chinese ? 'Switch to English' : '切换到中文'}">${chinese ? 'English' : '中文'}</button>`);
+  html = html.replace(/<div class="topbar"><b>Rethinking Weight Decay<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>Rethinking Weight Decay</b>`);
+  html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
+  const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'Rethinking Weight Decay';
+  const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
+  if (!body) throw new Error(`Missing article body in ${filename}`);
+  rethinkingArticles[chinese ? 'zh' : 'en'] = { title, body };
+}
+for (const asset of rethinkingAssets) {
+  const source = resolve(rethinkingSource, 'assets', asset);
+  if (!source.startsWith(resolve(rethinkingSource, 'assets') + '/')) throw new Error(`Asset outside Rethinking Weight Decay: ${asset}`);
+  await stat(source);
+  const destination = resolve(output, 'blog', 'assets', 'rethinking-weight-decay', asset);
+  await mkdir(dirname(destination), { recursive: true });
+  await cp(source, destination);
+}
+const rethinkingTemplate = (language, article) => `<template id="article-${language}" data-title="${article.title.replaceAll('&', '&amp;').replaceAll('"', '&quot;')}">${article.body.replaceAll('</template>', '<\\/template>')}</template>`;
+const rethinkingHead = await readFile(resolve(rethinkingSource, 'index.en.html'), 'utf8');
+const rethinkingHeadContent = rethinkingHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
+  ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
+if (!rethinkingHeadContent) throw new Error('Missing Rethinking Weight Decay head');
+const rethinkingCombined = `<!doctype html><html lang="en"><head>${rethinkingHeadContent}</head><body><div id="article"></div>${rethinkingTemplate('en', rethinkingArticles.en)}${rethinkingTemplate('zh', rethinkingArticles.zh)}<script src="/article.js" defer></script></body></html>`;
+await writeFile(resolve(output, 'blog', 'rethinking-weight-decay'), rethinkingCombined);
 await writeFile(resolve(output, '_redirects'), [
   '/blog/MLtheorybench/ /blog/MLtheorybench 301',
   '/blog/MLtheorybench/index.html /blog/MLtheorybench 301',
@@ -98,11 +134,14 @@ await writeFile(resolve(output, '_redirects'), [
   '/blog/index.en.html /blog/ 302',
   '/blog/valg/ /blog/valg 301',
   '/blog/valg/index.html /blog/valg 301',
-  '/blog/valg/index.en.html /blog/valg 301'
+  '/blog/valg/index.en.html /blog/valg 301',
+  '/blog/rethinking-weight-decay/ /blog/rethinking-weight-decay 301',
+  '/blog/rethinking-weight-decay/index.html /blog/rethinking-weight-decay 301',
+  '/blog/rethinking-weight-decay/index.en.html /blog/rethinking-weight-decay 301'
 ].join('\n') + '\n');
 const headersPath = resolve(output, '_headers');
 const headers = await readFile(headersPath, 'utf8');
-await writeFile(headersPath, `${headers.trimEnd()}\n\n/blog/MLtheorybench\n  Content-Type: text/html; charset=utf-8\n\n/blog/valg\n  Content-Type: text/html; charset=utf-8\n`);
+await writeFile(headersPath, `${headers.trimEnd()}\n\n/blog/MLtheorybench\n  Content-Type: text/html; charset=utf-8\n\n/blog/valg\n  Content-Type: text/html; charset=utf-8\n\n/blog/rethinking-weight-decay\n  Content-Type: text/html; charset=utf-8\n`);
 // Explicit output allowlist: no problem records, drafts, archives, or credentials.
 await writeFile(resolve(output, '404.html'), `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found — OpenMLTheory</title><style>body{margin:15vh auto;padding:24px;max-width:600px;color:#242822;font:18px/1.7 Georgia,serif}a{color:#be5134}</style><p>OpenMLTheory / 404</p><h1>This page is still an open question.</h1><p>The page you requested could not be found.</p><a href="/">← Back to OpenMLTheory</a></html>`);
-console.log(`Built ${relative(root, output)}: homepage, Chinese + English research articles, ${assets.size + valgAssets.size} referenced assets. No problem data included.`);
+console.log(`Built ${relative(root, output)}: homepage, Chinese + English research articles, ${assets.size + valgAssets.size + rethinkingAssets.size} referenced assets. No problem data included.`);
