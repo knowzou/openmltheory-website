@@ -27,4 +27,6 @@
 .about-page-copy h2{margin-bottom:30px}
 .about-page-copy p:not(.eyebrow){max-width:700px;color:var(--muted);font-size:15px;line-height:1.85;margin-bottom:20px}
 .about-page-copy .text-link{margin-top:13px}
+.members-section{padding-bottom:88px}.members-section h2{font-size:30px;margin-bottom:26px}.member-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}.member-list li{border-bottom:1px solid var(--line)}.member-list a{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:19px 0;font:450 25px/1.25 var(--serif);transition:color .2s}.member-list a:hover{color:var(--accent)}.member-list a span:last-child{font:16px/1 var(--sans);color:var(--accent)}
 @media(max-width:660px){.page-intro{padding-top:52px;padding-bottom:37px}.page-intro h1{font-size:48px}.page-intro>p:last-child{font-size:19px}.publication-list{padding-top:34px;padding-bottom:72px}.about-page-copy{grid-template-columns:1fr;gap:18px;padding-top:47px;padding-bottom:65px}.about-page-copy h2{font-size:34px;margin-bottom:20px}}
+@media(max-width:660px){.members-section{padding-bottom:65px}.members-section h2{font-size:26px;margin-bottom:18px}.member-list a{font-size:23px;padding:17px 0}}
