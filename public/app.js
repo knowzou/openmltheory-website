@@ -78,13 +78,13 @@ Object.assign(translations.en, {
   navResearchContent: 'Blog', navAbout: 'About us', viewAllPosts: 'All posts',
   blogPageLabel: 'PUBLICATIONS', blogPageTitle: 'Blog',
   aboutPageLabel: 'OPENMLTHEORY', aboutPageTitle: 'About us', aboutResearch: 'Our research',
-  membersTitle: 'Faculty', memberCao: 'Yuan Cao', memberLiang: 'Yingyu Liang', memberQian: 'Jian Qian', memberZou: 'Difan Zou'
+  membersTitle: 'Faculty', membersOrder: 'Alphabetical by surname'
 });
 Object.assign(translations.zh, {
   navResearchContent: '博客', navAbout: '关于我们', viewAllPosts: '查看全部文章',
   blogPageLabel: '研究文章', blogPageTitle: '博客',
   aboutPageLabel: 'OPENMLTHEORY', aboutPageTitle: '关于我们', aboutResearch: '我们的研究',
-  membersTitle: '教师', memberCao: '曹原', memberLiang: '梁颖宇', memberQian: '钱舰', memberZou: '邹荻凡'
+  membersTitle: '教师', membersOrder: '按姓氏拼音顺序'
 });
 
 const languageButton = document.querySelector('#language');
