@@ -46,7 +46,7 @@ const englishHead = await readFile(resolve(blogSource, 'index.en.html'), 'utf8')
 const head = englishHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
   ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
 if (!head) throw new Error('Missing article head');
-const combined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="MLtheorybench: 885 proof tasks from machine learning theory papers, comparing seven AI models.">${head}<link rel="stylesheet" href="/article-theme.css?v=20261106-1"></head><body><div id="article"></div>${template('en', articles.en)}${template('zh', articles.zh)}<script src="/article.js?v=20261106-1" defer></script></body></html>`;
+const combined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="MLtheorybench: 885 proof tasks from machine learning theory papers, comparing seven AI models.">${head}<link rel="stylesheet" href="/article-theme.css?v=20261106-2"></head><body><div id="article"></div>${template('en', articles.en)}${template('zh', articles.zh)}<script src="/article.js?v=20261106-1" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'MLtheorybench'), combined);
 const valgSource = resolve(blogRoot, 'valg');
 const valgAssets = new Set();
@@ -87,7 +87,7 @@ const valgHead = await readFile(resolve(valgSource, 'index.en.html'), 'utf8');
 const valgHeadContent = valgHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
   ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
 if (!valgHeadContent) throw new Error('Missing VALG article head');
-const valgCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="VALG: an agentic workflow for developing ML theory research with explicit theorem scope and proof review.">${valgHeadContent}<link rel="stylesheet" href="/article-theme.css?v=20261106-1"></head><body><div id="article"></div>${valgTemplate('en', valgArticles.en)}${valgTemplate('zh', valgArticles.zh)}<script src="/article.js?v=20261106-1" defer></script></body></html>`;
+const valgCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="VALG: an agentic workflow for developing ML theory research with explicit theorem scope and proof review.">${valgHeadContent}<link rel="stylesheet" href="/article-theme.css?v=20261106-2"></head><body><div id="article"></div>${valgTemplate('en', valgArticles.en)}${valgTemplate('zh', valgArticles.zh)}<script src="/article.js?v=20261106-1" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'valg'), valgCombined);
 await writeFile(resolve(output, '_redirects'), [
   '/blog/MLtheorybench/ /blog/MLtheorybench 301',

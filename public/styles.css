@@ -38,25 +38,38 @@
 @media(max-width:660px){.header-actions{gap:8px}.language-switch button{min-width:31px;padding:0 5px}.theme-toggle{width:32px;height:32px}}
 @media(max-width:380px){.header-inner{gap:6px}.brand{font-size:16px}.brand img{width:28px;height:28px}.header-actions{gap:5px}}
 
-html[data-theme="dark"]{color-scheme:dark;--ink:#e9ede5;--muted:#aab3a8;--line:#3c483e;--paper:#253027;--accent:#e9987a}
-html[data-theme="dark"] body{background:#171e19}
-html[data-theme="dark"] .header{background:rgba(23,30,25,.96)}
-html[data-theme="dark"] .language-switch button[aria-pressed="true"]{background:#39483b;box-shadow:none}
-html[data-theme="dark"] .primary{background:#e9ede5;color:#171e19}
+html[data-theme="dark"]{color-scheme:dark;--ink:#eeeae4;--muted:#aaa9a3;--line:#3d3d3b;--paper:#28292a;--accent:#e99678}
+html[data-theme="dark"] body{background:#1c1d1e}
+html[data-theme="dark"] .header{background:rgba(28,29,30,.96)}
+html[data-theme="dark"] .language-switch button[aria-pressed="true"]{background:#414142;box-shadow:none}
+html[data-theme="dark"] .primary{background:#eeeae4;color:#1c1d1e}
 html[data-theme="dark"] .primary:hover{background:#fff}
-html[data-theme="dark"] .approach-section{background:#202923}
+html[data-theme="dark"] .approach-section{background:#242526}
 html[data-theme="dark"] .approach-grid article{border-color:var(--line)}
-html[data-theme="dark"] .closing{background:#282e27;border-color:var(--line)}
+html[data-theme="dark"] .closing{background:#2c2a29;border-color:var(--line)}
 html[data-theme="dark"] .closing .eyebrow{color:var(--muted)}
-html[data-theme="dark"] .research-card-bench .research-cover{background:#2a352a}
-html[data-theme="dark"] .research-card-valg .research-cover{background:#342b29}
+html[data-theme="dark"] .research-card-bench .research-cover{background:#2d322e}
+html[data-theme="dark"] .research-card-valg .research-cover{background:#342c2a}
 html[data-theme="dark"] .research-cover-meta,html[data-theme="dark"] .research-cover-bottom,html[data-theme="dark"] .research-card-copy .post-authors,html[data-theme="dark"] .research-sources{color:var(--muted)}
 html[data-theme="dark"] .research-cover-bottom{border-color:var(--line)}
 html[data-theme="dark"] .research-figure{background:#fff}
-html[data-theme="dark"] .research-card-bench .tag{background:#394a38;color:#c4d5b8}
+html[data-theme="dark"] .research-card-bench .tag{background:#343e36;color:#c4d5b8}
 html[data-theme="dark"] .research-card-valg .tag{background:#4a3630;color:#ecc0ad}
 html[data-theme="dark"] .research-sources a{color:var(--accent);text-decoration-color:#986651}
-html[data-theme="dark"] .about-mark{color:#5b695b}
+html[data-theme="dark"] .about-mark{color:#66645e}
 html[data-theme="dark"] .hero-art svg rect{opacity:.32}
 @media(max-width:660px){.page-intro{padding-top:52px;padding-bottom:37px}.page-intro h1{font-size:48px}.page-intro>p:last-child{font-size:19px}.publication-list{padding-top:34px;padding-bottom:72px}.about-page-copy{grid-template-columns:1fr;gap:18px;padding-top:47px;padding-bottom:65px}.about-page-copy h2,html[lang="zh-CN"] .about-page-copy h2{font-size:20px;line-height:1.25;margin-bottom:20px}}
 @media(max-width:380px){.about-page-copy h2,html[lang="zh-CN"] .about-page-copy h2{font-size:17px}}
+
+.vision-section,html[data-theme="dark"] .vision-section{background:transparent}
+.vision-section .section-space{padding-block:64px 72px}
+.vision-section .approach-intro{gap:56px;align-items:center;margin-bottom:36px}
+.vision-section .approach-intro .eyebrow{margin-bottom:12px}
+.vision-section h2,html[lang="zh-CN"] .vision-section h2{font:450 27px/1.35 var(--sans);letter-spacing:0}
+.vision-section h2 em{font-style:italic;font-weight:400}
+.vision-section .approach-intro>p{font-size:14px;line-height:1.8}
+.vision-section .approach-grid{gap:32px}
+.vision-section .approach-grid article{padding-top:18px;border-color:var(--line)}
+.vision-section .approach-grid h3{font:500 18px/1.4 var(--sans);letter-spacing:0;margin-bottom:8px}
+.vision-section .approach-grid p{font-size:13px;line-height:1.75}
+@media(max-width:600px){.vision-section .section-space{padding-block:44px 52px}.vision-section .approach-intro{gap:18px;margin-bottom:28px}.vision-section h2,html[lang="zh-CN"] .vision-section h2{font-size:22px}.vision-section .approach-grid{gap:24px}.vision-section .approach-grid h3{font-size:17px}}
