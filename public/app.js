@@ -77,17 +77,21 @@ Object.assign(translations.zh, {
 Object.assign(translations.en, {
   navResearchContent: 'Blog', navAbout: 'About us', viewAllPosts: 'All posts',
   blogPageLabel: 'PUBLICATIONS', blogPageTitle: 'Blog',
-  aboutPageLabel: 'OPENMLTHEORY', aboutPageTitle: 'About us', aboutResearch: 'Our research',
-  membersTitle: 'Faculty', membersOrder: 'Alphabetical by surname'
+  aboutPageLabel: 'OPENMLTHEORY', aboutPageTitle: 'About us', aboutPageHeading: 'Two fields. A shared horizon.', aboutResearch: 'Our research',
+  aboutIntroCombined: 'We are a research team exploring the synergy between LLMs and machine learning theory. Our vision is a continuing cycle of AI → Theory → AI, where new capabilities and deeper understanding advance together. Our research, resources, and reflections come together here.',
+  aboutTeamIntro: "We are a team in the ML Fundamentals group at the University of Hong Kong's School of Computing and Data Science (HKU CDS).",
+  aboutFaculty: 'Faculty members:', memberCao: 'Yuan Cao', memberLiang: 'Yingyu Liang', memberQian: 'Jian Qian', memberZou: 'Difan Zou', memberSeparator: ', ', sentenceEnd: '.'
 });
 Object.assign(translations.zh, {
   navResearchContent: '博客', navAbout: '关于我们', viewAllPosts: '查看全部文章',
   blogPageLabel: '研究文章', blogPageTitle: '博客',
-  aboutPageLabel: 'OPENMLTHEORY', aboutPageTitle: '关于我们', aboutResearch: '我们的研究',
-  membersTitle: '教师', membersOrder: '按姓氏拼音顺序'
+  aboutPageLabel: 'OPENMLTHEORY', aboutPageTitle: '关于我们', aboutPageHeading: '两个领域，共同的探索方向。', aboutResearch: '我们的研究',
+  aboutIntroCombined: '我们是一支研究 LLM 与机器学习理论协同的团队。我们希望逐步连接智能的能力与理论的理解，最终实现 AI → Theory → AI 的闭环。这里分享我们的研究进展、资源与思考。',
+  aboutTeamIntro: '我们是香港大学计算与数据科学学院（HKU CDS）机器学习基础研究组的团队。',
+  aboutFaculty: '教师成员：', memberCao: '曹原', memberLiang: '梁颖宇', memberQian: '钱舰', memberZou: '邹荻凡', memberSeparator: '、', sentenceEnd: '。'
 });
 
-const languageButton = document.querySelector('#language');
+const languageButtons = document.querySelectorAll('[data-set-language]');
 const page = document.body.dataset.page || 'home';
 let language = 'en';
 try { language = localStorage.getItem('openmltheory-language') === 'zh' ? 'zh' : 'en'; } catch {}
@@ -111,11 +115,11 @@ function setLanguage(next) {
   });
   document.querySelector('.research-card-bench .research-cover')?.setAttribute('aria-label', next === 'zh' ? '阅读 MLtheorybench：机器学习理论证明评测' : 'Read MLtheorybench: Evaluating Proofs in Machine Learning Theory');
   document.querySelector('.research-card-valg .research-cover')?.setAttribute('aria-label', next === 'zh' ? '阅读 VALG：面向机器学习理论研究的 Agent 系统' : 'Read VALG: An Agentic System for ML Theory Research');
-  languageButton.textContent = next === 'zh' ? 'EN' : '中文';
-  languageButton.setAttribute('aria-label', next === 'zh' ? 'Switch to English' : '切换到中文');
+  languageButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.setLanguage === next)));
+  window.openmltheoryTheme?.refresh();
   try { localStorage.setItem('openmltheory-language', next); } catch {}
 }
-languageButton.addEventListener('click', () => setLanguage(language === 'en' ? 'zh' : 'en'));
+languageButtons.forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.setLanguage)));
 setLanguage(language);
 const menu = document.querySelector('#menu');
 const mobileNav = document.querySelector('#mobile-nav');

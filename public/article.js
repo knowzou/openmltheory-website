@@ -9,11 +9,13 @@ function render(next) {
   root.replaceChildren(template.content.cloneNode(true));
   document.documentElement.lang = next === 'zh' ? 'zh-CN' : 'en';
   document.title = template.dataset.title;
-  document.querySelectorAll('.language-toggle').forEach(button => {
-    button.textContent = next === 'zh' ? 'English' : '中文';
-    button.setAttribute('aria-label', next === 'zh' ? 'Switch to English' : '切换到中文');
-    button.addEventListener('click', () => render(language === 'en' ? 'zh' : 'en'));
+  root.querySelectorAll('[data-article-language]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.articleLanguage === next));
+    button.addEventListener('click', () => {
+      if (button.dataset.articleLanguage !== language) render(button.dataset.articleLanguage);
+    });
   });
+  window.openmltheoryTheme?.refresh();
   const toc = root.querySelector('#toc ol');
   const headings = [...root.querySelectorAll('main h2[id], main h3[id]')].filter(heading => heading.id !== 'refs');
   headings.forEach(heading => {

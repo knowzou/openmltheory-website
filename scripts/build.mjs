@@ -6,6 +6,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const output = resolve(root, 'dist');
 const blogRoot = resolve(root, 'blog');
 const blogSource = resolve(blogRoot, 'MLtheorybench');
+const articleControls = '<nav class="language-switch" aria-label="Choose language"><button type="button" data-article-language="en" aria-pressed="true">EN</button><button type="button" data-article-language="zh" aria-pressed="false">中文</button></nav><button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode"><span aria-hidden="true">☾</span></button>';
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await cp(resolve(root, 'public'), output, { recursive: true });
@@ -21,9 +22,8 @@ for (const filename of ['index.html', 'index.en.html']) {
   }
   const chinese = filename === 'index.html';
   html = html.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
-  html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, `<button class="language-toggle" type="button" aria-label="${chinese ? 'Switch to English' : '切换到中文'}">${chinese ? 'English' : '中文'}</button>`);
+  html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, articleControls);
   html = html.replace(/<div class="topbar"><b>MLtheorybench<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>MLtheorybench</b>`);
-  html = html.replace('</style>', `\n.home-link{color:var(--muted);font-size:13px;text-decoration:none;white-space:nowrap}.home-link:hover{color:var(--primary)}.language-toggle{padding:3px 10px;border:1px solid var(--border);border-radius:5px;background:white;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}.language-toggle:hover,.language-toggle:focus-visible{border-color:var(--primary);color:var(--text)}.topbar{gap:18px;flex-wrap:wrap}.topbar>b{margin-right:auto}@media(max-width:600px){.topbar{padding:12px 16px;gap:10px}.topbar-actions{gap:10px}.topbar-actions>span{display:none}}\n</style>`);
   html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'MLtheorybench';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
@@ -46,7 +46,7 @@ const englishHead = await readFile(resolve(blogSource, 'index.en.html'), 'utf8')
 const head = englishHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
   ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
 if (!head) throw new Error('Missing article head');
-const combined = `<!doctype html><html lang="en"><head><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="MLtheorybench: 885 proof tasks from machine learning theory papers, comparing seven AI models.">${head}</head><body><div id="article"></div>${template('en', articles.en)}${template('zh', articles.zh)}<script src="/article.js" defer></script></body></html>`;
+const combined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="MLtheorybench: 885 proof tasks from machine learning theory papers, comparing seven AI models.">${head}<link rel="stylesheet" href="/article-theme.css?v=20261106-1"></head><body><div id="article"></div>${template('en', articles.en)}${template('zh', articles.zh)}<script src="/article.js?v=20261106-1" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'MLtheorybench'), combined);
 const valgSource = resolve(blogRoot, 'valg');
 const valgAssets = new Set();
@@ -61,9 +61,8 @@ for (const filename of ['index.html', 'index.en.html']) {
   }
   const chinese = filename === 'index.html';
   html = html.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
-  html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, `<button class="language-toggle" type="button" aria-label="${chinese ? 'Switch to English' : '切换到中文'}">${chinese ? 'English' : '中文'}</button>`);
+  html = html.replace(/<nav class="language-switch"[^>]*>[\s\S]*?<\/nav>/, articleControls);
   html = html.replace(/<div class="topbar"><b>[^<]+<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>VALG</b>`);
-  html = html.replace('</style>', `\n.home-link{color:var(--muted);font-size:13px;text-decoration:none;white-space:nowrap}.home-link:hover{color:var(--primary)}.language-toggle{padding:3px 10px;border:1px solid var(--border);border-radius:5px;background:white;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}.language-toggle:hover,.language-toggle:focus-visible{border-color:var(--primary);color:var(--text)}.topbar{gap:18px;flex-wrap:wrap}.topbar>b{margin-right:auto}@media(max-width:600px){.topbar{padding:12px 16px;gap:10px}.topbar-actions{gap:10px}.topbar-actions>span{display:none}}\n</style>`);
   html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'VALG';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
@@ -88,7 +87,7 @@ const valgHead = await readFile(resolve(valgSource, 'index.en.html'), 'utf8');
 const valgHeadContent = valgHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
   ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
 if (!valgHeadContent) throw new Error('Missing VALG article head');
-const valgCombined = `<!doctype html><html lang="en"><head><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="VALG: an agentic workflow for developing ML theory research with explicit theorem scope and proof review.">${valgHeadContent}</head><body><div id="article"></div>${valgTemplate('en', valgArticles.en)}${valgTemplate('zh', valgArticles.zh)}<script src="/article.js" defer></script></body></html>`;
+const valgCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="VALG: an agentic workflow for developing ML theory research with explicit theorem scope and proof review.">${valgHeadContent}<link rel="stylesheet" href="/article-theme.css?v=20261106-1"></head><body><div id="article"></div>${valgTemplate('en', valgArticles.en)}${valgTemplate('zh', valgArticles.zh)}<script src="/article.js?v=20261106-1" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'valg'), valgCombined);
 await writeFile(resolve(output, '_redirects'), [
   '/blog/MLtheorybench/ /blog/MLtheorybench 301',
