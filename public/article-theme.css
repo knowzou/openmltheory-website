@@ -1,7 +1,12 @@
 .topbar{gap:18px;flex-wrap:wrap}
 .topbar>b{margin-right:auto}
+.weight-decay-article .topbar>b{position:static;transform:none;margin-right:auto}
 .topbar .home-link{color:var(--muted);font-size:13px;text-decoration:none;white-space:nowrap}
 .topbar .home-link:hover{color:var(--primary)}
+.topbar .article-nav{display:flex;align-items:center;gap:31px;flex:none;font:500 13px/1.4 'DM Sans',var(--font)}
+.topbar .article-nav a{display:inline-flex;align-items:center;min-height:40px;color:var(--text);text-decoration:none;white-space:nowrap}
+.topbar .article-nav a:hover,.topbar .article-nav a.active{color:#be5134}
+.topbar .article-nav a:focus-visible,.topbar .home-link:focus-visible{outline:2px solid #be5134;outline-offset:4px}
 .topbar .language-switch{display:inline-flex;align-items:center;gap:2px;padding:2px;border:1px solid var(--border);border-radius:5px;background:var(--surface)}
 .topbar .language-switch button{height:28px;min-width:38px;padding:0 8px;border:0;border-radius:3px;background:transparent;color:var(--muted);font:600 12px/1 var(--font);cursor:pointer}
 .topbar .language-switch button[aria-pressed="true"]{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
@@ -9,10 +14,12 @@
 .topbar .theme-toggle{display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid var(--border);border-radius:5px;background:transparent;color:var(--text);font:20px/1 var(--font);cursor:pointer}
 .topbar .theme-toggle:hover{border-color:var(--primary);color:var(--primary)}
 .topbar button:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-@media(max-width:600px){.topbar{display:grid;grid-template-columns:minmax(0,1fr) auto;padding:12px 16px;gap:10px}.topbar-actions{grid-column:1/-1;justify-content:flex-end;gap:10px;min-width:0}.topbar-actions>span{display:none}.meta-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;text-align:left}.meta-inner>div:first-child{grid-column:1/-1}}
+@media(max-width:760px){.topbar{display:grid;grid-template-columns:minmax(0,1fr) auto;padding:12px 16px;column-gap:10px;row-gap:0}.topbar .home-link{grid-column:1;grid-row:1}.topbar .topbar-actions{grid-column:2;grid-row:1;justify-content:flex-end;gap:10px;min-width:0}.topbar .article-nav{grid-column:1/-1;grid-row:2;gap:26px;border-top:1px solid var(--border);margin-top:12px;min-width:0}.topbar>b,.weight-decay-article .topbar>b{position:static;grid-column:1/-1;grid-row:3;transform:none;max-width:none;margin:8px 0 0;white-space:normal;text-align:left}.meta-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;text-align:left}.meta-inner>div:first-child{grid-column:1/-1}}
 
 html[data-theme="dark"]{color-scheme:dark;background:#1c1d1e;--text:#eeeae4;--muted:#aaa9a3;--border:#3d3d3b;--surface:#28292a;--primary:#e99678;--primary-hover:#f3ae92}
 html[data-theme="dark"] body{background:#1c1d1e}
+html[data-theme="dark"] .topbar .article-nav a.active{color:#e99678}
+html[data-theme="dark"] .topbar .article-nav a:hover{color:#e99678}
 html[data-theme="dark"] .topbar .language-switch button[aria-pressed="true"]{background:#414142;box-shadow:none}
 html[data-theme="dark"] thead th{background:#333435}
 html[data-theme="dark"] tbody tr:nth-child(odd) td{background:#242526}
@@ -30,10 +37,6 @@ html[data-theme="dark"] figure.flowchart img,html[data-theme="dark"] figure img{
 @media print{html[data-theme="dark"]{color-scheme:light;background:#fff;--text:rgba(0,0,0,.85);--muted:rgba(0,0,0,.6);--border:rgba(0,0,0,.1);--surface:#f9f9f9;--primary:#ec956a}html[data-theme="dark"] body{background:#fff}}
 
 @media(max-width:600px){
-  .weight-decay-article .topbar{grid-template-columns:minmax(0,1fr) auto}
-  .weight-decay-article .topbar .home-link{grid-column:1;grid-row:1}
-  .weight-decay-article .topbar-actions{grid-column:2;grid-row:1}
-  .weight-decay-article .topbar>b{position:static;grid-column:1/-1;grid-row:2;transform:none;max-width:none;text-align:left}
   .weight-decay-article main .katex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;vertical-align:middle}
   .weight-decay-article .references{overflow-wrap:anywhere}
 }

@@ -1,14 +1,17 @@
 const root = document.querySelector('#article');
+const englishTitle = document.title;
+const englishArticle = document.createDocumentFragment();
+englishArticle.append(...[...root.childNodes].map(node => node.cloneNode(true)));
 let language = 'en';
 let scrollHandler;
 try { language = localStorage.getItem('openmltheory-language') === 'zh' ? 'zh' : 'en'; } catch {}
 
 function render(next) {
   language = next;
-  const template = document.querySelector(`#article-${next}`);
-  root.replaceChildren(template.content.cloneNode(true));
+  const template = next === 'zh' ? document.querySelector('#article-zh') : null;
+  root.replaceChildren(next === 'zh' ? template.content.cloneNode(true) : englishArticle.cloneNode(true));
   document.documentElement.lang = next === 'zh' ? 'zh-CN' : 'en';
-  document.title = template.dataset.title;
+  document.title = next === 'zh' ? template.dataset.title : englishTitle;
   root.querySelectorAll('[data-article-language]').forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.articleLanguage === next));
     button.addEventListener('click', () => {
