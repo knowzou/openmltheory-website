@@ -49,6 +49,7 @@ The build copies `public/`, generates the article routes, and copies assets refe
 - Edit the homepage, Blog index, or About page in `public/`. Shared styles are in [`public/styles.css`](public/styles.css); English and Chinese interface text and language switching are in [`public/app.js`](public/app.js).
 - Edit an article's Chinese `index.html` and English `index.en.html` in its folder under `blog/`. Keep article images and other linked files under that article's `assets/` directory.
 - Article language switching is handled by [`public/article.js`](public/article.js). The selected language is saved in the browser and reused across the site.
+- Each article's `citation.bib` is its canonical English blog citation, shared across both languages. The build adds a “Cite this article” block at the end of the body, before the references, with a copy button in the BibTeX box's top-right corner. Keep the author list, title, year, and production URL accurate; the record cites the blog itself. The text remains selectable without JavaScript.
 - Run `npm run build` and check the affected pages in the local preview before pushing changes.
 
 ## Deployment

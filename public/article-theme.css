@@ -1,4 +1,18 @@
 .topbar{gap:18px;flex-wrap:wrap}
+/* Shared article citation: copy control stays inside the record's top right. */
+.article-citation{margin-top:48px;min-width:0}
+.article-citation h3{margin:0 0 18px}
+.article-citation-code{position:relative;min-width:0}
+.article-citation-code pre{margin:0;padding:16px 60px 16px 18px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font:12px/1.65 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.article-citation-code code{font:inherit;color:inherit}
+.article-citation-copy{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:8px;border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--muted);cursor:pointer}
+.article-citation-copy[hidden],.article-citation-copy svg[hidden]{display:none}
+.article-citation-copy svg{display:block;width:16px;height:16px;fill:currentColor}
+.article-citation-copy:hover,.article-citation-copy.is-copied{border-color:var(--primary);color:var(--primary)}
+.article-citation-copy:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.article-citation .article-citation-status{margin:6px 0 0;min-height:1.5em;color:var(--muted);font:13px/1.5 var(--font)}
+@media(pointer:coarse){.article-citation-copy{width:44px;height:44px}}
+@media print{.article-citation-copy,.article-citation-status{display:none!important}.article-citation-code pre{padding-right:18px}.article-citation{break-inside:avoid}}
 .topbar>b{margin-right:auto}
 .weight-decay-article .topbar>b{position:static;transform:none;margin-right:auto}
 .topbar .home-link{color:var(--muted);font-size:13px;text-decoration:none;white-space:nowrap}

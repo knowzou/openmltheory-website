@@ -6,6 +6,67 @@ let language = 'en';
 let scrollHandler;
 try { language = localStorage.getItem('openmltheory-language') === 'zh' ? 'zh' : 'en'; } catch {}
 
+async function copyCitationText(text) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch { /* Try the legacy copy command if clipboard access is denied. */ }
+  }
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px';
+  const activeElement = document.activeElement;
+  document.body.append(textarea);
+  try {
+    textarea.select();
+    if (!document.execCommand('copy')) throw new Error('Copy command failed');
+  } finally {
+    textarea.remove();
+    activeElement?.focus({ preventScroll: true });
+  }
+}
+
+function bindCitationCopy(chinese) {
+  const section = root.querySelector('.article-citation');
+  const button = section?.querySelector('[data-copy-bibtex]');
+  if (!button) return;
+  const status = section.querySelector('[data-copy-status]');
+  const copyIcon = button.querySelector('[data-copy-icon]');
+  const checkIcon = button.querySelector('[data-check-icon]');
+  const label = chinese ? '复制 BibTeX 引用' : 'Copy BibTeX citation';
+  let resetTimer;
+  const resetButton = () => {
+    button.classList.remove('is-copied');
+    button.setAttribute('aria-label', label);
+    button.title = label;
+    copyIcon.removeAttribute('hidden');
+    checkIcon.setAttribute('hidden', '');
+    status.textContent = '';
+  };
+  button.hidden = false;
+  button.addEventListener('click', async () => {
+    clearTimeout(resetTimer);
+    resetButton();
+    button.disabled = true;
+    try {
+      await copyCitationText(section.querySelector('[data-bibtex]').textContent.trim());
+      button.classList.add('is-copied');
+      button.setAttribute('aria-label', chinese ? '已复制 BibTeX 引用' : 'BibTeX citation copied');
+      button.title = button.getAttribute('aria-label');
+      copyIcon.setAttribute('hidden', '');
+      checkIcon.removeAttribute('hidden');
+      status.textContent = chinese ? '已复制' : 'Copied';
+      resetTimer = window.setTimeout(resetButton, 1600);
+    } catch {
+      status.textContent = chinese ? '复制失败，请选择 BibTeX 文本手动复制。' : 'Select the BibTeX text to copy it manually.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+}
+
 function render(next) {
   language = next;
   const template = next === 'zh' ? document.querySelector('#article-zh') : null;
@@ -19,6 +80,7 @@ function render(next) {
     });
   });
   window.openmltheoryTheme?.refresh();
+  bindCitationCopy(next === 'zh');
   const toc = root.querySelector('#toc ol');
   const headings = [...root.querySelectorAll('main h2[id], main h3[id]')].filter(heading => heading.id !== 'refs');
   headings.forEach(heading => {
