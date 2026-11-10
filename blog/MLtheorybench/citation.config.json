@@ -1,0 +1,9 @@
+{
+  "references": {
+    "ref-webb": { "label": "Webb Alignment Tool, n.d." },
+    "ref-timss-2023": { "label": "Mullis et al., 2021" },
+    "ref-pisa-2022": { "label": "OECD, 2023" },
+    "ref-ai4slt-2026": { "label": "Zhang et al., 2026" },
+    "ref-testing-lower-bounds": { "label": "Degenne et al., n.d." }
+  }
+}

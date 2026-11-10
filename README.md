@@ -52,6 +52,25 @@ The build copies `public/`, generates the article routes, and copies assets refe
 - Each article's `citation.bib` is its canonical English blog citation, shared across both languages. The build adds a “Cite this article” block at the end of the body, before the references, with a copy button in the BibTeX box's top-right corner. Keep the author list, title, year, and production URL accurate; the record cites the blog itself. The text remains selectable without JavaScript.
 - Run `npm run build` and check the affected pages in the local preview before pushing changes.
 
+## Inline citation settings
+
+The root `citation.config.json` controls all articles. An optional `blog/<slug>/citation.config.json` overrides only the fields specified for that article; both languages share it.
+
+| Setting | Default | Options |
+| --- | --- | --- |
+| `style` | `author-year` | `author-year`, `numeric` |
+| `link` | `source` | `source` opens the reference's original URL in a new tab; `reference` jumps to the bibliography |
+| `preview` | `true` | Hover/focus reference preview on or off |
+| `mobile` | `navigate` | `navigate` follows the link on the first tap; `preview-first` previews on the first tap and follows on the second |
+
+For example, an article can override the default interaction without changing the other articles:
+
+```json
+{ "link": "reference", "mobile": "preview-first" }
+```
+
+The build resolves `a.citation[href="#ref-…"]` and `a[data-ref-id]` against the existing bibliography. It reuses author-year labels from citation text or titles, and the first source link in the matching bibliography entry. For missing/ambiguous labels or multiple source URLs, use `references: { "ref-id": { "label": "Author et al., 2026", "url": "https://…" } }` in the article config. Reference overrides merge by ID across the global and article configuration. Use `n.d.` for undated sources. Narrative author-year citations retain their year-only link when the author is already written in the sentence. Missing references, labels, source URLs, or invalid settings fail the build instead of silently producing a broken citation. The normalized links also work without JavaScript; reference IDs and backreferences are preserved.
+
 ## Deployment
 
 Pushing to `main` runs [`Deploy OpenMLTheory`](.github/workflows/deploy.yml). The workflow installs dependencies, builds `dist/`, and deploys it to the existing Cloudflare Pages project `openmltheory`, which serves openmltheory.com. It can also be started manually from the GitHub Actions tab.

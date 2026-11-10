@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, writeFile, rm, stat } from 'node:fs/promises';
 import { resolve, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadCitationConfig, normalizeInlineCitations } from './inline-citations.mjs';
 import { addArticleCitation } from './article-citation.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -30,6 +31,7 @@ for (const filename of ['index.html', 'index.en.html']) {
   html = html.replace(/<div class="topbar"><b>MLtheorybench<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>MLtheorybench</b>`);
   html = addArticleNavigation(html, chinese);
   html = await addArticleCitation(html, blogSource, chinese);
+  html = normalizeInlineCitations(html, await loadCitationConfig(root, blogSource));
   html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/?view=list" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'MLtheorybench';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
@@ -52,7 +54,7 @@ const englishHead = await readFile(resolve(blogSource, 'index.en.html'), 'utf8')
 const head = englishHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
   ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
 if (!head) throw new Error('Missing article head');
-const combined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="MLtheorybench: 885 proof tasks from machine learning theory papers, comparing seven AI models.">${head}${articleNavFont}<link rel="stylesheet" href="/article-theme.css?v=20261109-1"></head><body><div id="article">${articles.en.body}</div>${template('zh', articles.zh)}<script src="/article.js?v=20261109-1" defer></script></body></html>`;
+const combined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="MLtheorybench: 885 proof tasks from machine learning theory papers, comparing seven AI models.">${head}${articleNavFont}<link rel="stylesheet" href="/article-theme.css?v=20261110-2"></head><body><div id="article">${articles.en.body}</div>${template('zh', articles.zh)}<script src="/article.js?v=20261110-2" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'MLtheorybench'), combined);
 const valgSource = resolve(blogRoot, 'valg');
 const valgAssets = new Set();
@@ -71,6 +73,7 @@ for (const filename of ['index.html', 'index.en.html']) {
   html = html.replace(/<div class="topbar"><b>[^<]+<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>VALG</b>`);
   html = addArticleNavigation(html, chinese);
   html = await addArticleCitation(html, valgSource, chinese);
+  html = normalizeInlineCitations(html, await loadCitationConfig(root, valgSource));
   html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/?view=list" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'VALG';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
@@ -95,7 +98,7 @@ const valgHead = await readFile(resolve(valgSource, 'index.en.html'), 'utf8');
 const valgHeadContent = valgHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
   ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
 if (!valgHeadContent) throw new Error('Missing VALG article head');
-const valgCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="VALG: an agentic workflow for developing ML theory research with explicit theorem scope and proof review.">${valgHeadContent}${articleNavFont}<link rel="stylesheet" href="/article-theme.css?v=20261109-1"></head><body><div id="article">${valgArticles.en.body}</div>${valgTemplate('zh', valgArticles.zh)}<script src="/article.js?v=20261109-1" defer></script></body></html>`;
+const valgCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261106"><meta name="description" content="VALG: an agentic workflow for developing ML theory research with explicit theorem scope and proof review.">${valgHeadContent}${articleNavFont}<link rel="stylesheet" href="/article-theme.css?v=20261110-2"></head><body><div id="article">${valgArticles.en.body}</div>${valgTemplate('zh', valgArticles.zh)}<script src="/article.js?v=20261110-2" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'valg'), valgCombined);
 const rethinkingSource = resolve(blogRoot, 'rethinking-weight-decay');
 const rethinkingAssets = new Set();
@@ -114,6 +117,7 @@ for (const filename of ['index.html', 'index.en.html']) {
   html = html.replace(/<div class="topbar"><b>Rethinking Weight Decay<\/b>/, `<div class="topbar"><a class="home-link" href="/">← OpenMLTheory</a><b>Rethinking Weight Decay</b>`);
   html = addArticleNavigation(html, chinese);
   html = await addArticleCitation(html, rethinkingSource, chinese);
+  html = normalizeInlineCitations(html, await loadCitationConfig(root, rethinkingSource));
   html = html.replace('</body>', `<nav aria-label="${chinese ? '文章导航' : 'Article navigation'}" style="text-align:center;padding:0 16px 35px"><a href="/blog/?view=list" style="color:#72766e;text-decoration:none;font-size:14px">← ${chinese ? '返回博客' : 'Back to Blog'}</a></nav>\n</body>`);
   const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'Rethinking Weight Decay';
   const body = html.match(/<body>([\s\S]*?)<\/body>/)?.[1];
@@ -133,7 +137,7 @@ const rethinkingHead = await readFile(resolve(rethinkingSource, 'index.en.html')
 const rethinkingHeadContent = rethinkingHead.match(/<head>([\s\S]*?)<\/head>/)?.[1]
   ?.replace(/<link rel="alternate" hreflang="(?:zh-CN|en)"[^>]*>\n?/g, '');
 if (!rethinkingHeadContent) throw new Error('Missing Rethinking Weight Decay head');
-const rethinkingCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script>${rethinkingHeadContent}${articleNavFont}<link rel="stylesheet" href="/article-theme.css?v=20261109-1"></head><body class="weight-decay-article"><div id="article">${rethinkingArticles.en.body}</div>${rethinkingTemplate('zh', rethinkingArticles.zh)}<script src="/article.js?v=20261109-1" defer></script></body></html>`;
+const rethinkingCombined = `<!doctype html><html lang="en"><head><script src="/theme.js?v=20261106-1"></script>${rethinkingHeadContent}${articleNavFont}<link rel="stylesheet" href="/article-theme.css?v=20261110-2"></head><body class="weight-decay-article"><div id="article">${rethinkingArticles.en.body}</div>${rethinkingTemplate('zh', rethinkingArticles.zh)}<script src="/article.js?v=20261110-2" defer></script></body></html>`;
 await writeFile(resolve(output, 'blog', 'rethinking-weight-decay'), rethinkingCombined);
 await writeFile(resolve(output, '_redirects'), [
   '/blog/MLtheorybench/ /blog/MLtheorybench 301',

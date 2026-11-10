@@ -54,3 +54,15 @@ html[data-theme="dark"] figure.flowchart img,html[data-theme="dark"] figure img{
   .weight-decay-article main .katex{display:inline-block;max-width:100%;overflow-x:auto;overflow-y:hidden;vertical-align:middle}
   .weight-decay-article .references{overflow-wrap:anywhere}
 }
+
+.citation-preview{position:fixed;z-index:2000;max-width:calc(100vw - 24px);max-height:min(22rem,calc(100vh - 24px));overflow:auto;padding:12px 14px 14px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text);box-shadow:0 12px 32px rgba(0,0,0,.18);font-size:13.5px;line-height:1.55;opacity:0;transform:translateY(3px);transition:opacity 120ms ease,transform 120ms ease}
+.citation-preview[hidden]{display:none}.citation-preview.is-visible{opacity:1;transform:translateY(0)}
+.citation-preview__header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+.citation-preview__close{display:inline-grid;width:23px;height:23px;place-items:center;padding:0;border:1px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);cursor:pointer;font-size:16px;line-height:1}
+.citation-preview__close:hover,.citation-preview__close:focus-visible{color:var(--text);border-color:var(--primary)}
+.citation-preview__reference>li{margin:0;padding:0;list-style:none}.citation-preview__reference a{overflow-wrap:anywhere;color:var(--primary);text-decoration:underline;text-underline-offset:2px}.citation-preview__reference .csl-left-margin{display:none}
+.citation-preview__reference i{font-style:italic}.citation-preview__reference .backrefs{display:none}
+@media(max-width:700px){.citation-preview{width:calc(100vw - 24px)!important;max-height:min(18rem,calc(100vh - 24px));font-size:14px}}
+html[data-theme="dark"] .citation-preview{box-shadow:0 12px 32px rgba(0,0,0,.45)}
+@media(prefers-reduced-motion:reduce){.citation-preview{transition:none}}
+@media print{.citation-preview{display:none!important}}
